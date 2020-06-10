@@ -5,7 +5,7 @@ tags:
 ---
 Hi, my name is Samesh Lakhotia and I'm a passionate developer interested in web development, machine learning and tons of other stuff. I love building software, working with tech and solving problems.
 
-I also love doing open source stuff. I am currently working on my Google Summer of Code (2020) project called [hydrus](https://github.com/HTTP-APIs/hydrus).
+I also love doing open source stuff. I am currently working on my Google Summer of Code (2020) project on improving [hydrus](https://github.com/HTTP-APIs/hydrus).
 
 I am currently an undergrad sophomore year student studying Electronics and Communication engineering at BITS Pilani, Goa campus.
 
