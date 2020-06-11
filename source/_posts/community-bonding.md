@@ -1,6 +1,6 @@
 ---
 title: Community Bonding Period - Google Summer of Code 2020
-date: 2020-06-05 18:18:33
+date: 2020-06-06 18:18:33
 tags:
 ---
 
