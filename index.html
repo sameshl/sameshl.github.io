@@ -130,7 +130,7 @@
   </li>
         <li class="menu-item menu-item-archives">
 
-    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives<span class="badge">4</span></a>
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives<span class="badge">5</span></a>
 
   </li>
   </ul>
@@ -157,6 +157,99 @@
 
           <div class="content index posts-expand">
             
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://www.sameshlakhotia.tech/week-4/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/samesh-avatar.png">
+      <meta itemprop="name" content="Samesh Lakhotia">
+      <meta itemprop="description" content="Software Development is 💙">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Samesh Lakhotia">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/week-4/" class="post-title-link" itemprop="url">GSoC 2020 - Week 4 (Some good news too!)</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: June 28th 2020 21:52:38 / Modified: 18:31:02" itemprop="dateCreated datePublished" datetime="2020-06-28T21:52:38+00:00">June 28th 2020</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>Hi y’all!</p>
+<p>Its been 4 weeks into the coding period of my GSoC 2020.</p>
+<p>First off, I have some good news to share:</p>
+<p><strong>The task of creation of database schema where each resource has its own table, by reading the ApiDoc on runtime has been completed!</strong></p>
+<img src="https://i.pinimg.com/originals/f2/09/84/f20984b12874d68b5443dbbd124e22cc.gif" class="" title="HydraEcosystem" alt="HydraEcosystem logo">
+
+<h2 id="Previous-schema"><a href="#Previous-schema" class="headerlink" title="Previous schema"></a>Previous schema</h2><img src="https://raw.githubusercontent.com/HTTP-APIs/hydrus/develop/docs/wiki/images/db_schema.png" class="" title="Hydrus Schema" alt="Hydus schema">
+
+<h2 id="New-schema"><a href="#New-schema" class="headerlink" title="New schema"></a>New schema</h2><blockquote><p>As the new schema depends on the ApiDoc, the below schema is for this <a href="https://github.com/HTTP-APIs/hydrus/blob/master/hydrus/samples/hydra_doc_sample.py" target="_blank" rel="noopener">Drone ApiDoc</a>.</p>
+</blockquote>
+
+<img src="/images/week-4/drone_er.png" class="" width="1000" height="1000" title="New Drone schema" alt="New Drone schema">
+
+<p>The ER Diagram isn’t that clear because I didn’t use any tool to draw it; I generated it using a tool called <a href="https://pypi.org/project/ERAlchemy/" target="_blank" rel="noopener">ERAlchemy</a>. Though, I will update it with a better one, ASAP.</p>
+<p>I will explain the important bits here:</p>
+<ul>
+<li>All the tables are for the resources defined in the Drone ApiDoc.</li>
+<li>The lines between them are foreign key constraints. These were established by checking if any of the <code>supportedProperty</code> of that resource are referencing any other resource. This could happen by either referencing them through the <em>property</em> attribute of that supportedProperty (for eg, <a href="https://github.com/HTTP-APIs/hydrus/blob/72b4cda49ab9cfe0fb775146e8d5113f5d6869e0/hydrus/samples/hydra_doc_sample.py#L628-L633" target="_blank" rel="noopener">‘vocab:State’</a>) or through defining <em>hydra:Link</em> in the <em>property</em> attribute of that supportedProperty. The range of that <em>hydra:Link</em> would dictate the resource to which the foreign key is to be established (for eg, <a href="https://github.com/HTTP-APIs/hydrus/blob/72b4cda49ab9cfe0fb775146e8d5113f5d6869e0/hydrus/samples/hydra_doc_sample.py#L503-L509" target="_blank" rel="noopener">‘range’: ‘vocab:State’</a>).</li>
+<li>The <code>State</code> column in the <strong>Command</strong> table is acting like a foreign key to <strong>State</strong> table.</li>
+<li>The <code>DroneState</code> column in the <strong>Drone</strong> table is acting like a foreign key to <strong>State</strong> table.</li>
+<li>The <code>State</code> column, <code>Data</code> column, <code>Command</code> column in the <strong>LogEntry</strong> table are acting like a foreign keys to <strong>State</strong> table, <code>Datastream</code> table and <code>Command</code> table respectively.</li>
+</ul>
+<h2 id="Benefits-of-this-new-database-architecture"><a href="#Benefits-of-this-new-database-architecture" class="headerlink" title="Benefits of this new database architecture"></a>Benefits of this new database architecture</h2><ul>
+<li>As this database architecture makes a table for each resource, this really improves its scalability and efficiency.</li>
+<li>The database operations are much more efficient now.</li>
+<li>The codebase (CRUD operations part) has become less complex. As now all the linking for RDF triples are done by the inherent database tables. Before, the schema was really generic, which meant, overhead on the developer’s side to implement all the CRUD operations. But now, as the database has simplified to tables for each resource, this means that overhead is taken care by SQL-Alchemy. And we can get away with a very simple statement of the kind <code>table.insert(value)</code>(Thank you SQL-Alchemy).</li>
+<li>Fun fact: If you will observe my <a href="https://github.com/HTTP-APIs/hydrus/pull/479" target="_blank" rel="noopener">PR</a> for this feature, you will observe that in net total, there is actually code that is removed from the codebase! Even after implementation of such big feature. This goes to prove the fact that this feature, bringing more optimisation to <em>hydrus</em>, infact reduces its complexity.</li>
+</ul>
+<h2 id="Learnings"><a href="#Learnings" class="headerlink" title="Learnings"></a>Learnings</h2><p>It took me a little more time than I anticipated for implementing this feature as the previous code for database operation was really tighly coupled to existing schema. There was not that much abstraction between the under the hood database queries and the higher level logic for parsing data.</p>
+<p>This taught me how to write better decoupled code so the project becomes maintainable on a longer run.</p>
+<p>Also, after completing this feature, I have become confident of ~97-99% of the <em>hydrus</em> codebase. As during implementation, I faced a lot of bugs in between which lead to many <code>pdb</code> sessions through which I navigated through deep stack traces and essentially going over a major chunk of the hydrus codebase, <em>line by line</em>.</p>
+<p>I also faced many bugs in between and after spending some time trying to debug, Python’s <em>pass by reference</em> hit right on my face (facepalm!)</p>
+<p>All the work I have done for this feature is in this <a href="https://github.com/HTTP-APIs/hydrus/pull/479" target="_blank" rel="noopener">PR</a>.</p>
+<h2 id="Path-Ahead"><a href="#Path-Ahead" class="headerlink" title="Path Ahead"></a>Path Ahead</h2><p>The Phase 1 evaluations are coming up tomorrow. Fingers crossed.</p>
+<p>Also, the next problem we would like to tackle is the <a href="https://github.com/HTTP-APIs/hydrus/issues/416" target="_blank" rel="noopener">Treating collections as a resource</a> in <em>hydrus</em>. Looking forward towards going about it!</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
       
   
   
@@ -192,7 +285,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: June 22nd 2020 11:04:45" itemprop="dateModified" datetime="2020-06-22T11:04:45+00:00">June 22nd 2020</time>
+                <time title="Modified: June 28th 2020 18:31:02" itemprop="dateModified" datetime="2020-06-28T18:31:02+00:00">June 28th 2020</time>
               </span>
 
           
@@ -273,7 +366,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: June 22nd 2020 11:04:45" itemprop="dateModified" datetime="2020-06-22T11:04:45+00:00">June 22nd 2020</time>
+                <time title="Modified: June 28th 2020 18:31:02" itemprop="dateModified" datetime="2020-06-28T18:31:02+00:00">June 28th 2020</time>
               </span>
 
           
@@ -360,7 +453,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: June 22nd 2020 11:04:45" itemprop="dateModified" datetime="2020-06-22T11:04:45+00:00">June 22nd 2020</time>
+                <time title="Modified: June 28th 2020 18:31:02" itemprop="dateModified" datetime="2020-06-28T18:31:02+00:00">June 28th 2020</time>
               </span>
 
           
@@ -427,7 +520,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: June 22nd 2020 11:04:45" itemprop="dateModified" datetime="2020-06-22T11:04:45+00:00">June 22nd 2020</time>
+                <time title="Modified: June 28th 2020 18:31:02" itemprop="dateModified" datetime="2020-06-28T18:31:02+00:00">June 28th 2020</time>
               </span>
 
           
@@ -529,7 +622,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">4</span>
+          <span class="site-state-item-count">5</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
