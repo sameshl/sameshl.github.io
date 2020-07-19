@@ -130,7 +130,7 @@
   </li>
         <li class="menu-item menu-item-archives">
 
-    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives<span class="badge">5</span></a>
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives<span class="badge">6</span></a>
 
   </li>
   </ul>
@@ -161,6 +161,96 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://www.sameshlakhotia.tech/week-6/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/samesh-avatar.png">
+      <meta itemprop="name" content="Samesh Lakhotia">
+      <meta itemprop="description" content="Software Development is 💙">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Samesh Lakhotia">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/week-6/" class="post-title-link" itemprop="url">GSoC 2020 - Week 6</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: July 13th 2020 15:33:56" itemprop="dateCreated datePublished" datetime="2020-07-13T15:33:56+00:00">July 13th 2020</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: July 19th 2020 09:58:11" itemprop="dateModified" datetime="2020-07-19T09:58:11+00:00">July 19th 2020</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>So, six weeks have elapsed of my GSoC 2020. It feels great to be working on the project as we have made a good amount of progress.</p>
+<p>Also, the first evaluations had been completed and I had successfully passed them. That’s good!</p>
+<p>Now coming to what I have been working on the last two weeks. Initially the plan was to start working on the <a href="https://github.com/HTTP-APIs/hydrus/issues/416" target="_blank" rel="noopener">Treating collections as a resource</a> issue in <code>hydrus</code>.</p>
+<p>But after discussion with my mentors, they suggested me to work on two smaller issues before tackling the above issue as that is a big one.</p>
+<h1 id="The-problems"><a href="#The-problems" class="headerlink" title="The problems"></a>The problems</h1><p><strong>1. <a href="https://github.com/HTTP-APIs/hydrus/issues/481" target="_blank" rel="noopener">Use of “*Collection” as default notation for Collection resources</a></strong></p>
+<p>In a lot of places <code>hydrus</code> assumes that the collection for a certain resource will be of the name “[Classname]Collection”. This has been added in a lot of places in the code as well(hardcoded). For example <a href="https://github.com/HTTP-APIs/hydrus/blob/72b4cda49ab9cfe0fb775146e8d5113f5d6869e0/hydrus/data/crud.py#L132" target="_blank" rel="noopener">here</a>.</p>
+<p>Ideally, Collection endpoint and resource can use any “name” and we should not limit it to the current format.</p>
+<h4 id="Solution"><a href="#Solution" class="headerlink" title="Solution"></a>Solution</h4><p>Collections have to be uniquely identified from the APIDOC. Also, the parsing of resources from the API Doc is actually taken care by the <a href="https://github.com/HTTP-APIs/hydra-python-core" target="_blank" rel="noopener"><code>hydra-python-core</code></a> module. So, the actual problem here lies in that module rather than <code>hydrus</code>.</p>
+<p>After going through the hydra specs, we understood that collections in an APIDOC can be identified through two ways.</p>
+<ul>
+<li>All collections have to have an inline <a href="https://www.hydra-cg.com/spec/latest/core/#manages-block" target="_blank" rel="noopener">‘manages’</a> block. The manages block is a way to add information about the members of that collections.</li>
+<li>All collections can be provided in the <code>hydra:collection</code> property of the EntryPoint. </li>
+</ul>
+<p>Both of these cases can be understood from <a href="https://github.com/HydraCG/Specifications/blob/master/drafts/use-cases/1.entry-point.md#details" target="_blank" rel="noopener">this</a> example.</p>
+<p>The work I have done is in this PR: <a href="https://github.com/HTTP-APIs/hydra-python-core/pull/41" target="_blank" rel="noopener">https://github.com/HTTP-APIs/hydra-python-core/pull/41</a></p>
+<p>There was also complementary work done by in <a href="https://github.com/HTTP-APIs/hydra-python-core/pull/40" target="_blank" rel="noopener">this</a> PR by another fellow GSoC participant, Priyanshu.</p>
+<p><strong>2. <a href="https://github.com/HTTP-APIs/hydrus/issues/482" target="_blank" rel="noopener">hydrus hardcoded with ‘vocab:’ to check foreign key relationship</a></strong></p>
+<p>At the moment, hydrus has been hardcoded with <code>vocab:</code> while it tries to identify foreign key relationship. For eg, <a href="https://github.com/HTTP-APIs/hydrus/blob/27db73939f2fe8a8d08a8e3c2096876247dcf7d0/hydrus/data/db_models.py#L90" target="_blank" rel="noopener">here</a>.</p>
+<p>But, we should not hardcode the method to detect any kind of relationships.<br>We(in <code>hydrus</code>) should actually expand the <code>vocab:</code> keyword and also check that for identifying foreign key relationship. For eg, something like <a href="https://www.markus-lanthaler.com/hydra/event-api/vocab#Class1" target="_blank" rel="noopener">https://www.markus-lanthaler.com/hydra/event-api/vocab#Class1</a>.</p>
+<p>But the problem here is that just expanding <code>vocab:</code> won’t solve the underlying issue for discovering all foreign key relationships correctly. For example, we could as well have something called <code>myownvocab:</code> in <code>@context</code> node of the Hydra API doc and then that could be used to reference something like <code>myownvocab:Class1</code>.</p>
+<p>We might also extract this correctly after some work at parsing the API doc. But if suppose our context becomes nested, it will become difficult to parse.</p>
+<p>This issue is actually directly related to <a href="https://github.com/HTTP-APIs/hydra-python-core/issues/38" target="_blank" rel="noopener">this</a> existing issue in the <code>hydra-python-core</code> library.</p>
+<h4 id="Solution-1"><a href="#Solution-1" class="headerlink" title="Solution"></a>Solution</h4><p>The ideal behaviour should be that, <code>hydrus</code> starts with an expanded API doc. We should not parse the API doc without expanding it beforehand.</p>
+<p>This change should then ideally take place it the <code>hydra_python_core</code> library, which generates the API doc object which hydrus uses for parsing data required of the API doc. Therefore the output of the <code>hydra_python_core</code> librarie’s <code>doc_maker</code> module should be an API doc which is <strong>expanded beforehand</strong>.</p>
+<p>For working on this, Priyanshu started with the changes in the core module in <a href="https://github.com/HTTP-APIs/hydra-python-core/pull/42" target="_blank" rel="noopener">his</a> PR.<br>I then started with doing necessary changes in <code>hydrus</code> after these changes in the core library.</p>
+<h3 id="Learnings"><a href="#Learnings" class="headerlink" title="Learnings"></a>Learnings</h3><p>I learnt a lot more on the Hydra Spec solving the above two issues. Both of the above issues needed a lot background understanding of the spec so we could implement the required solutions in <code>hydrus</code> and more importantly the <code>hydra-python-core</code> module.</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
     <link itemprop="mainEntityOfPage" href="https://www.sameshlakhotia.tech/week-4/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -184,10 +274,16 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">Posted on</span>
-              
 
-              <time title="Created: June 28th 2020 21:52:38 / Modified: 18:31:02" itemprop="dateCreated datePublished" datetime="2020-06-28T21:52:38+00:00">June 28th 2020</time>
+              <time title="Created: June 28th 2020 21:52:38" itemprop="dateCreated datePublished" datetime="2020-06-28T21:52:38+00:00">June 28th 2020</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: July 19th 2020 09:58:11" itemprop="dateModified" datetime="2020-07-19T09:58:11+00:00">July 19th 2020</time>
+              </span>
 
           
 
@@ -285,7 +381,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: June 28th 2020 18:31:02" itemprop="dateModified" datetime="2020-06-28T18:31:02+00:00">June 28th 2020</time>
+                <time title="Modified: July 19th 2020 09:58:11" itemprop="dateModified" datetime="2020-07-19T09:58:11+00:00">July 19th 2020</time>
               </span>
 
           
@@ -366,7 +462,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: June 28th 2020 18:31:02" itemprop="dateModified" datetime="2020-06-28T18:31:02+00:00">June 28th 2020</time>
+                <time title="Modified: July 19th 2020 09:58:11" itemprop="dateModified" datetime="2020-07-19T09:58:11+00:00">July 19th 2020</time>
               </span>
 
           
@@ -453,7 +549,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: June 28th 2020 18:31:02" itemprop="dateModified" datetime="2020-06-28T18:31:02+00:00">June 28th 2020</time>
+                <time title="Modified: July 19th 2020 09:58:11" itemprop="dateModified" datetime="2020-07-19T09:58:11+00:00">July 19th 2020</time>
               </span>
 
           
@@ -520,7 +616,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: June 28th 2020 18:31:02" itemprop="dateModified" datetime="2020-06-28T18:31:02+00:00">June 28th 2020</time>
+                <time title="Modified: July 19th 2020 09:58:11" itemprop="dateModified" datetime="2020-07-19T09:58:11+00:00">July 19th 2020</time>
               </span>
 
           
@@ -622,7 +718,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">5</span>
+          <span class="site-state-item-count">6</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
