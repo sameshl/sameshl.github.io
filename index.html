@@ -130,7 +130,7 @@
   </li>
         <li class="menu-item menu-item-archives">
 
-    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives<span class="badge">6</span></a>
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives<span class="badge">7</span></a>
 
   </li>
   </ul>
@@ -157,6 +157,110 @@
 
           <div class="content index posts-expand">
             
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://www.sameshlakhotia.tech/week-8/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/samesh-avatar.png">
+      <meta itemprop="name" content="Samesh Lakhotia">
+      <meta itemprop="description" content="Software Development is 💙">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Samesh Lakhotia">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/week-8/" class="post-title-link" itemprop="url">GSoC 2020 - Week 8</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: July 28th 2020 12:07:46 / Modified: 09:20:12" itemprop="dateCreated datePublished" datetime="2020-07-28T12:07:46+00:00">July 28th 2020</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>Eight weeks have elapsed of my GSoC 2020. It feels great to be working on the project as we have made a good amount of progress.</p>
+<p>Also, the second evaluations are coming up. Fingers crossed.</p>
+<p>Now coming to what I have been working on the last two weeks. The last two weeks were spent in tackling a very big pending issue in <code>hydrus</code>, <a href="https://github.com/HTTP-APIs/hydrus/issues/416" target="_blank" rel="noopener">Treating collections as a resource</a> issue.</p>
+<p>This was one of the biggest points in my proposal for GSoC 2020 and also the mentors wanted this issue to be fixed. A lot of improvements would be made after this is fixed.</p>
+<h2 id="The-Problem"><a href="#The-Problem" class="headerlink" title="The Problem"></a>The Problem</h2><p> Currently in <code>hydrus</code>, the treatment of <code>collections</code> as a single resource for every <code>class</code> is wrong. Nowhere in the spec is it mentioned that a collection is a set of <strong>all</strong> objects for a given class. It is mentioned that a collection is “<em>a set of somehow related resources</em>“. This does not imply that a collection would be only limited to class types.</p>
+<p> What this means essentially is that currently in <code>hydrus</code> if there is a ‘collection’ class which is a collection of instances of type <em>x</em>, it is just being used to store <strong>all</strong> elements of type x.</p>
+<p> For example, looking at this <a href="https://github.com/HTTP-APIs/hydrus/blob/master/hydrus/samples/hydra_doc_sample.py" target="_blank" rel="noopener">Drone ApiDoc</a>, we can see there is a <code>hydra:Collection</code> with title ‘DroneCollection’. And there is also a <code>hydra:Class</code> of type ‘Drone’. So, currently what is happening is that whenever you add a new drone to the database(via PUT request), it gets added to the <code>DroneCollection</code> collection. Therefore, all the drones will belong under just DroneCollection. Meaning if we do a GET request at <code>/DroneCollection</code> we will get the <em>members</em> property in the response as all the drones from the database.<br> But, no where in the <em>Hydra Spec</em> it is written that a <code>hydra:Collection</code> will just be the set of <strong>all</strong> members of that class(in this case, drones).</p>
+<h2 id="Solution"><a href="#Solution" class="headerlink" title="Solution"></a>Solution</h2><p>The way to go is to allow users to define collections on their own. Each collection itself would have an @<code>id</code> since it is a subclass of <code>hydra:Resource</code>. We then use the collection endpoint to relate classes/properties.</p>
+<p>For example, seeing this in the context of the Comment and Issue classes:<br>The advantage of using a collection is that we could then define a <code>CommentCollection</code> object, where we link all <code>Comment</code> objects for a <strong>particular</strong> issue. We then give that <code>CommentCollection</code> object as the property for the <code>Issue</code>.</p>
+<p>In terms of defining it in the API documentation, it would be something like:</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">        <span class="attr">"@type"</span>: <span class="string">"SupportedProperty"</span>,</span><br><span class="line">        <span class="attr">"property"</span>: vocab:CommentCollection,</span><br><span class="line">        <span class="attr">"readonly"</span>: <span class="string">"false"</span>,</span><br><span class="line">        <span class="attr">"required"</span>: <span class="string">"true"</span>,</span><br><span class="line">        <span class="attr">"title"</span>: <span class="string">"Comments"</span>,</span><br><span class="line">        <span class="attr">"writeonly"</span>: <span class="string">"false"</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>The property would map to an instance of the <code>CommanCollection</code> class. This will be defined in the <code>supportedProperty</code> field for the definition of the <code>Issue</code> class. Like any other object, when we define the Issue object, we will add the appropriate instance of the <code>CommandCollection</code> to the <code>Issue</code> instance. So an object would be something like:</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">        <span class="attr">"@type"</span>: <span class="string">"Issue"</span>,</span><br><span class="line">        <span class="attr">"@id"</span>: <span class="string">"/api/Issues/27"</span>,</span><br><span class="line">        <span class="attr">"Issue"</span>: <span class="string">"...."</span>,</span><br><span class="line">        <span class="attr">"Comments"</span>: <span class="string">"/api/CommentCollection/32"</span>,</span><br><span class="line">        ....</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>And then <code>/api/CommentCollection/32</code> would have:</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">        <span class="attr">"@type"</span>: <span class="string">"CommentCollection"</span>,</span><br><span class="line">        <span class="attr">"@id"</span>: <span class="string">"/api/CommentCollection/32"</span>,</span><br><span class="line">        <span class="attr">"members"</span>: [</span><br><span class="line">                &#123;</span><br><span class="line">                        <span class="attr">"@id"</span>: <span class="string">"/api/Comment/12"</span>,</span><br><span class="line">                        <span class="attr">"@type"</span>: <span class="string">"Comment"</span></span><br><span class="line">                &#125;,</span><br><span class="line">                &#123;</span><br><span class="line">                        <span class="attr">"@id"</span>: <span class="string">"/api/Comment/18"</span>,</span><br><span class="line">                        <span class="attr">"@type"</span>: <span class="string">"Comment"</span></span><br><span class="line">                &#125;,</span><br><span class="line">                &#123;</span><br><span class="line">                        <span class="attr">"@id"</span>: <span class="string">"/api/Comment/22"</span>,</span><br><span class="line">                        <span class="attr">"@type"</span>: <span class="string">"Comment"</span></span><br><span class="line">                &#125;</span><br><span class="line">        ]</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="Implementation-details"><a href="#Implementation-details" class="headerlink" title="Implementation details"></a>Implementation details</h3><p>We have planned to have a new <code>collection_id</code> column for every collection table so as to distinguish which instance belongs to which collection. We need new column as the values in this column could be repeated as a collection could have many items in it.</p>
+<p>Apart from this column, the existing columns include <code>id</code>, which acts as the primary key for that table and <code>members</code> which would act as a link to the actual item in that item’s table.</p>
+<h3 id="Brief-description-of-major-changes-after-we-start-treating-collection-as-a-resource"><a href="#Brief-description-of-major-changes-after-we-start-treating-collection-as-a-resource" class="headerlink" title="Brief description of major changes after we start treating collection as a resource:"></a>Brief description of major changes after we start treating collection as a resource:</h3><p>(Note: For below discussion, <code>CommandCollection</code> is a collection class, <code>Command</code> would be non-collection class / parsed class. The meaning of non-collection class would be any class which will not act as a ‘collection’ of items)</p>
+<p>1) <strong>GET</strong> on <code>/collection/</code></p>
+<h5 id="Example-endpoint-CommandCollection"><a href="#Example-endpoint-CommandCollection" class="headerlink" title="Example endpoint: /CommandCollection/"></a>Example endpoint: <code>/CommandCollection/</code></h5><p>This fetches the data from the ‘CommandCollection’ table.</p>
+<h5 id="Example-response"><a href="#Example-response" class="headerlink" title="Example response:"></a>Example response:</h5><p>Will return a list of <em>collections</em>.</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="attr">"@context"</span>: <span class="string">"/serverapi/contexts/CommandCollection.jsonld"</span>,</span><br><span class="line">    <span class="attr">"@id"</span>: <span class="string">"/serverapi/CommandCollection/"</span>,</span><br><span class="line">    <span class="attr">"@type"</span>: <span class="string">"CommandCollection"</span>,</span><br><span class="line">    <span class="attr">"hydra:totalItems"</span>: <span class="number">3</span>,</span><br><span class="line">    <span class="attr">"hydra:view"</span>: &#123;</span><br><span class="line">        <span class="attr">"@id"</span>: <span class="string">"/serverapi/CommandCollection?page=1"</span>,</span><br><span class="line">        <span class="attr">"@type"</span>: <span class="string">"hydra:PartialCollectionView"</span>,</span><br><span class="line">        <span class="attr">"hydra:first"</span>: <span class="string">"/serverapi/CommandCollection?page=1"</span>,</span><br><span class="line">        <span class="attr">"hydra:last"</span>: <span class="string">"/serverapi/CommandCollection?page=1"</span></span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="attr">"members"</span>: [</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="attr">"@id"</span>: <span class="string">"/serverapi/CommandCollection/7d2cc88f-388a-43f1-80fc-0c2184de4784"</span>,</span><br><span class="line">            <span class="attr">"@type"</span>: <span class="string">"CommandCollection"</span></span><br><span class="line">        &#125;,</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="attr">"@id"</span>: <span class="string">"/serverapi/CommandCollection/50ed3b68-9437-4c68-93d4-b67013b9d412"</span>,</span><br><span class="line">            <span class="attr">"@type"</span>: <span class="string">"CommandCollection"</span></span><br><span class="line">        &#125;,</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="attr">"@id"</span>: <span class="string">"/serverapi/CommandCollection/c2e10f88-d205-41e7-aa61-338afd64f657"</span>,</span><br><span class="line">            <span class="attr">"@type"</span>: <span class="string">"CommandCollection"</span></span><br><span class="line">        &#125;</span><br><span class="line">    ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>2) <strong>PUT</strong> on <code>/collection/</code></p>
+<h5 id="Example-endpoint-CommandCollection-1"><a href="#Example-endpoint-CommandCollection-1" class="headerlink" title="Example endpoint: /CommandCollection/"></a>Example endpoint: <code>/CommandCollection/</code></h5><p>The request body should have the list of ids of class instances which would be grouped into a collection.<br>For eg,</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="attr">"@type"</span>: <span class="string">"CommandCollection"</span>,</span><br><span class="line">    <span class="attr">"members"</span>: [<span class="string">"aaaaa"</span>,</span><br><span class="line">                <span class="string">"bbbbb"</span>,</span><br><span class="line">                <span class="string">"ccccc"</span>]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>In the above example, ‘aaaaaa’, ‘bbbbb’ and ‘ccccc’ are the <code>ids</code>(primary key) of the instances in <code>Command</code> table.<br>This adds data in the ‘CommandCollection’ table.</p>
+<h5 id="Example-response-1"><a href="#Example-response-1" class="headerlink" title="Example response:"></a>Example response:</h5><figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="attr">"@context"</span>: <span class="string">"http://www.w3.org/ns/hydra/context.jsonld"</span>,</span><br><span class="line">    <span class="attr">"@type"</span>: <span class="string">"Status"</span>,</span><br><span class="line">    <span class="attr">"description"</span>: <span class="string">"Object with ID 50ed3b68-9437-4c68-93d4-b67013b9d412 successfully added"</span>,</span><br><span class="line">    <span class="attr">"statusCode"</span>: <span class="number">201</span>,</span><br><span class="line">    <span class="attr">"title"</span>: <span class="string">"Object successfully added."</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>NOTE: The <code>id</code> returned is actually the value of the <code>collection_id</code> column in the table, not the primary key <code>id</code>.</strong><br>3) <strong>GET</strong> on <code>/collection/id</code></p>
+<h5 id="Example-endpoint-CommandCollection-50ed3b68-9437-4c68-93d4-b67013b9d412"><a href="#Example-endpoint-CommandCollection-50ed3b68-9437-4c68-93d4-b67013b9d412" class="headerlink" title="Example endpoint: /CommandCollection/50ed3b68-9437-4c68-93d4-b67013b9d412"></a>Example endpoint: <code>/CommandCollection/50ed3b68-9437-4c68-93d4-b67013b9d412</code></h5><p><strong>Note: The <code>id</code> is corresponding to the <code>collection_id</code> column in the <code>CommandCollection</code> table, not the primary key <code>id</code>.</strong></p>
+<h5 id="Example-response-2"><a href="#Example-response-2" class="headerlink" title="Example response:"></a>Example response:</h5><p>Will return all the members belonging to the collection with given <code>collection_id</code>.</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="attr">"@context"</span>: <span class="string">"/serverapi/contexts/CommandCollection.jsonld"</span>,</span><br><span class="line">    <span class="attr">"@id"</span>: <span class="string">"/serverapi/CommandCollectionCollection/50ed3b68-9437-4c68-93d4-b67013b9d412"</span>,</span><br><span class="line">    <span class="attr">"@type"</span>: <span class="string">"CommandCollection"</span>,</span><br><span class="line">    <span class="attr">"members"</span>: [</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="attr">"@id"</span>: <span class="string">"/serverapi/Command/aaaaaa"</span>,</span><br><span class="line">            <span class="attr">"@type"</span>: <span class="string">"Command"</span></span><br><span class="line">        &#125;,</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="attr">"@id"</span>: <span class="string">"/serverapi/Command/bbbbbb"</span>,</span><br><span class="line">            <span class="attr">"@type"</span>: <span class="string">"Command"</span></span><br><span class="line">        &#125;,</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="attr">"@id"</span>: <span class="string">"/serverapi/Command/cccccc"</span>,</span><br><span class="line">            <span class="attr">"@type"</span>: <span class="string">"Command"</span></span><br><span class="line">        &#125;</span><br><span class="line">    ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>4) <strong>POST</strong> on <code>/collection/id</code></p>
+<h5 id="Example-endpoint-CommandCollection-50ed3b68-9437-4c68-93d4-b67013b9d412-1"><a href="#Example-endpoint-CommandCollection-50ed3b68-9437-4c68-93d4-b67013b9d412-1" class="headerlink" title="Example endpoint: /CommandCollection/50ed3b68-9437-4c68-93d4-b67013b9d412"></a>Example endpoint: <code>/CommandCollection/50ed3b68-9437-4c68-93d4-b67013b9d412</code></h5><p>The request body should have the list of members to be updated for the given collection.<br>For eg,</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="attr">"@type"</span>: <span class="string">"CommandCollection"</span>,</span><br><span class="line">    <span class="attr">"members"</span>: [<span class="string">"ddd"</span>,</span><br><span class="line">                <span class="string">"eee"</span>,</span><br><span class="line">                <span class="string">"fff"</span>]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>Note: The <code>id</code> is corresponding to the <code>collection_id</code> column in the <code>CommandCollection</code> table, not the primary key <code>id</code>.</strong></p>
+<h5 id="Example-response-3"><a href="#Example-response-3" class="headerlink" title="Example response:"></a>Example response:</h5><p>Will update all the members belonging to the collection with given <code>collection_id</code> with the members given in the request body.</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">&#123;</span><br><span class="line">    "@context": "http://www.w3.org/ns/hydra/context.jsonld",</span><br><span class="line">    "@type": "Status",</span><br><span class="line">    "description": "Object with ID 50ed3b68-9437-4c68-93d4-b67013b9d412 successfully updated",</span><br><span class="line">    "statusCode": 200,</span><br><span class="line">    "title": "Object updated"</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>5) <strong>DELETE</strong> on <code>/collection/id</code></p>
+<h5 id="Example-endpoint-CommandCollection-50ed3b68-9437-4c68-93d4-b67013b9d412-2"><a href="#Example-endpoint-CommandCollection-50ed3b68-9437-4c68-93d4-b67013b9d412-2" class="headerlink" title="Example endpoint: /CommandCollection/50ed3b68-9437-4c68-93d4-b67013b9d412"></a>Example endpoint: <code>/CommandCollection/50ed3b68-9437-4c68-93d4-b67013b9d412</code></h5><p><strong>Note: The <code>id</code> is corresponding to the <code>collection_id</code> column in the <code>CommandCollection</code> table, not the primary key <code>id</code>.</strong></p>
+<h5 id="Example-response-4"><a href="#Example-response-4" class="headerlink" title="Example response:"></a>Example response:</h5><p>Will delete that collection from the table.</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="attr">"@context"</span>: <span class="string">"http://www.w3.org/ns/hydra/context.jsonld"</span>,</span><br><span class="line">    <span class="attr">"@type"</span>: <span class="string">"Status"</span>,</span><br><span class="line">    <span class="attr">"description"</span>: <span class="string">"Object with ID 50ed3b68-9437-4c68-93d4-b67013b9d412 successfully deleted"</span>,</span><br><span class="line">    <span class="attr">"statusCode"</span>: <span class="number">200</span>,</span><br><span class="line">    <span class="attr">"title"</span>: <span class="string">"Object successfully deleted."</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>6) <strong>GET</strong>, <strong>PUT</strong>, <strong>POST</strong> and <strong>DELETE</strong> on any <code>/non-collection-class</code></p>
+<h5 id="Example-endpoint-Command-or-Area"><a href="#Example-endpoint-Command-or-Area" class="headerlink" title="Example endpoint: /Command/ or /Area"></a>Example endpoint: <code>/Command/</code> or <code>/Area</code></h5><p><strong>NOTE: All of these will have the same behaviour as what would have happened before on <code>/CommandCollection/</code> endpoint</strong></p>
+<h2 id="Learnings-Work-done"><a href="#Learnings-Work-done" class="headerlink" title="Learnings / Work done"></a>Learnings / Work done</h2><p>Apart from again learning a lot of the codebase of <code>hydrus</code>, I learnt a lot on <em>Hydra Spec</em>.</p>
+<p>All my work for this issue has been completed in this <a href="https://github.com/HTTP-APIs/hydrus/pull/488" target="_blank" rel="noopener">PR</a>.</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
       
   
   
@@ -192,7 +296,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: July 19th 2020 09:58:11" itemprop="dateModified" datetime="2020-07-19T09:58:11+00:00">July 19th 2020</time>
+                <time title="Modified: July 28th 2020 09:20:12" itemprop="dateModified" datetime="2020-07-28T09:20:12+00:00">July 28th 2020</time>
               </span>
 
           
@@ -282,7 +386,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: July 19th 2020 09:58:11" itemprop="dateModified" datetime="2020-07-19T09:58:11+00:00">July 19th 2020</time>
+                <time title="Modified: July 28th 2020 09:20:12" itemprop="dateModified" datetime="2020-07-28T09:20:12+00:00">July 28th 2020</time>
               </span>
 
           
@@ -381,7 +485,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: July 19th 2020 09:58:11" itemprop="dateModified" datetime="2020-07-19T09:58:11+00:00">July 19th 2020</time>
+                <time title="Modified: July 28th 2020 09:20:12" itemprop="dateModified" datetime="2020-07-28T09:20:12+00:00">July 28th 2020</time>
               </span>
 
           
@@ -462,7 +566,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: July 19th 2020 09:58:11" itemprop="dateModified" datetime="2020-07-19T09:58:11+00:00">July 19th 2020</time>
+                <time title="Modified: July 28th 2020 09:20:12" itemprop="dateModified" datetime="2020-07-28T09:20:12+00:00">July 28th 2020</time>
               </span>
 
           
@@ -549,7 +653,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: July 19th 2020 09:58:11" itemprop="dateModified" datetime="2020-07-19T09:58:11+00:00">July 19th 2020</time>
+                <time title="Modified: July 28th 2020 09:20:12" itemprop="dateModified" datetime="2020-07-28T09:20:12+00:00">July 28th 2020</time>
               </span>
 
           
@@ -616,7 +720,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: July 19th 2020 09:58:11" itemprop="dateModified" datetime="2020-07-19T09:58:11+00:00">July 19th 2020</time>
+                <time title="Modified: July 28th 2020 09:20:12" itemprop="dateModified" datetime="2020-07-28T09:20:12+00:00">July 28th 2020</time>
               </span>
 
           
@@ -718,7 +822,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">6</span>
+          <span class="site-state-item-count">7</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
