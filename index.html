@@ -130,7 +130,7 @@
   </li>
         <li class="menu-item menu-item-archives">
 
-    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives<span class="badge">7</span></a>
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives<span class="badge">8</span></a>
 
   </li>
   </ul>
@@ -161,6 +161,86 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://www.sameshlakhotia.tech/week-10/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/samesh-avatar.png">
+      <meta itemprop="name" content="Samesh Lakhotia">
+      <meta itemprop="description" content="Software Development is 💙">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Samesh Lakhotia">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/week-10/" class="post-title-link" itemprop="url">GSoC 2020 - Week 10 (Another good news!)</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: August 17th 2020 17:27:40 / Modified: 16:01:30" itemprop="dateCreated datePublished" datetime="2020-08-17T17:27:40+00:00">August 17th 2020</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>I passed the second evaluation in GSoC 2020. Hurray!</p>
+<p>Also, now 10 weeks have been completed. We are in the endgame now.</p>
+<p>Now coming to what I have been working on the last two weeks. The last two weeks were mainly spent in tackling a very big pending issue in <code>hydrus</code>, <a href="https://github.com/HTTP-APIs/hydrus/issues/482" target="_blank" rel="noopener">hydrus hardcoded with ‘vocab:’ to find relationships</a> issue.</p>
+<h2 id="The-Problem"><a href="#The-Problem" class="headerlink" title="The Problem"></a>The Problem</h2><p>At the moment, <code>hydrus</code> has been hardcoded with <code>vocab:</code> while it tries to identify foreign key relationship. For eg, <a href="https://github.com/HTTP-APIs/hydrus/blob/27db73939f2fe8a8d08a8e3c2096876247dcf7d0/hydrus/data/db_models.py#L90" target="_blank" rel="noopener">here</a>.</p>
+<p>But the problem here is that just expanding <code>vocab:</code> won’t solve the underlying issue for discovering all foreign key relationships correctly. For example, we could as well have something called <code>myownvocab:</code> in <code>@context</code> node of the Hydra API doc and then that could be used to reference something like <code>myownvocab:Class1</code>.</p>
+<p>We might also extract this correctly after some work at parsing the API doc. But if suppose our context becomes nested, it will become difficult to parse.</p>
+<p>This was a really big issue to tackle, not just because of the implementation in <code>hydrus</code> but also because there were a lot of changes required in the <code>hydra-python-core</code> repo. That is because the hard coded nature of <code>hydrus</code> was due to to the fact that initially <code>hydrus</code> and <code>hydra-python-core</code> were very tightly coupled. </p>
+<h2 id="Solution"><a href="#Solution" class="headerlink" title="Solution"></a>Solution</h2><p>The ideal behaviour should be that, <code>hydrus</code> starts with an <em>expanded</em> API doc. We should not parse the API doc without expanding it beforehand. This change should then ideally take place it the <code>hydra_python_core</code> library, which generates the API doc object which <code>hydrus</code> uses for parsing data required of the API doc. Therefore the output of the <code>hydra_python_core</code> library’s <code>doc_maker</code> module should be an API doc which is expanded beforehand.</p>
+<p>This dependency on the <code>hydra-python-core</code> made this issue a little more difficult than I initally anticipated.</p>
+<h2 id="Other-work"><a href="#Other-work" class="headerlink" title="Other work"></a>Other work</h2><p>Other than working on the above issue, I spent some time adding documentation on <code>hydrus</code> <a href="https://github.com/HTTP-APIs/hydra-python-core/pull/49" target="_blank" rel="noopener">here</a>. We all know how important good documentation is for any project, especially open source projects.</p>
+<p>Also, there was some work needed to be done on the previous <a href="https://github.com/HTTP-APIs/hydrus/issues/416" target="_blank" rel="noopener">Treating collections as a resource</a> issue.<br>Basically, some work had to be done on <strong>GET</strong> request on any <code>/collection</code> endpoint <a href="https://github.com/HTTP-APIs/hydrus/pull/492" target="_blank" rel="noopener">here</a>. This work was basically an update on the work in <a href="https://github.com/HTTP-APIs/hydrus/pull/488" target="_blank" rel="noopener">this</a> PR.</p>
+<h2 id="Learnings-Work-done"><a href="#Learnings-Work-done" class="headerlink" title="Learnings / Work done"></a>Learnings / Work done</h2><p>As most of the work done in this period was dependent on <code>hydra-python-core</code>, I really learnt how to work in a team, alongside fellow GSoCer at HydraEcocsystem, Priyanshu.</p>
+<p>It was an amazing experience as together both of us hunted down all the bugs to make sure <code>hydrus</code> and <code>hydra-python-core</code> work in sync perfectly.</p>
+<p>My PRs in this period:</p>
+<ul>
+<li>Remove hardcoded <code>vocab:</code> keyword - PR <a href="https://github.com/HTTP-APIs/hydrus/pull/490" target="_blank" rel="noopener">#490</a></li>
+<li>Add docs on <code>hydrus</code> - PR <a href="https://github.com/HTTP-APIs/hydra-python-core/pull/49" target="_blank" rel="noopener">#49</a></li>
+<li><strong>GET</strong> request on <code>/collection</code> endpoint - PR <a href="https://github.com/HTTP-APIs/hydrus/pull/492" target="_blank" rel="noopener">#492</a></li>
+</ul>
+<h2 id="Next-Steps"><a href="#Next-Steps" class="headerlink" title="Next Steps"></a>Next Steps</h2><p>After PR <a href="https://github.com/HTTP-APIs/hydrus/pull/488/" target="_blank" rel="noopener">#488</a> got merged, <code>hydrus</code> will has support for treating collections as a resource.</p>
+<p>But in that implementation, collections are restricted to only a collection of a <strong>single</strong> type class.<br>As described in the <a href="https://www.hydra-cg.com/spec/latest/core/#collections" target="_blank" rel="noopener">spec</a>, collections are described as a ‘set of somehow related resources’. This would also mean that a collection might also be a set of classes of different types.</p>
+<p>We need to add support for this type of collections too.</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
     <link itemprop="mainEntityOfPage" href="https://www.sameshlakhotia.tech/week-8/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -184,10 +264,16 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">Posted on</span>
-              
 
-              <time title="Created: July 28th 2020 12:07:46 / Modified: 09:20:12" itemprop="dateCreated datePublished" datetime="2020-07-28T12:07:46+00:00">July 28th 2020</time>
+              <time title="Created: July 28th 2020 12:07:46" itemprop="dateCreated datePublished" datetime="2020-07-28T12:07:46+00:00">July 28th 2020</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: August 17th 2020 16:01:30" itemprop="dateModified" datetime="2020-08-17T16:01:30+00:00">August 17th 2020</time>
+              </span>
 
           
 
@@ -296,7 +382,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: July 28th 2020 09:20:12" itemprop="dateModified" datetime="2020-07-28T09:20:12+00:00">July 28th 2020</time>
+                <time title="Modified: August 17th 2020 16:01:30" itemprop="dateModified" datetime="2020-08-17T16:01:30+00:00">August 17th 2020</time>
               </span>
 
           
@@ -386,7 +472,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: July 28th 2020 09:20:12" itemprop="dateModified" datetime="2020-07-28T09:20:12+00:00">July 28th 2020</time>
+                <time title="Modified: August 17th 2020 16:01:30" itemprop="dateModified" datetime="2020-08-17T16:01:30+00:00">August 17th 2020</time>
               </span>
 
           
@@ -485,7 +571,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: July 28th 2020 09:20:12" itemprop="dateModified" datetime="2020-07-28T09:20:12+00:00">July 28th 2020</time>
+                <time title="Modified: August 17th 2020 16:01:30" itemprop="dateModified" datetime="2020-08-17T16:01:30+00:00">August 17th 2020</time>
               </span>
 
           
@@ -566,7 +652,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: July 28th 2020 09:20:12" itemprop="dateModified" datetime="2020-07-28T09:20:12+00:00">July 28th 2020</time>
+                <time title="Modified: August 17th 2020 16:01:30" itemprop="dateModified" datetime="2020-08-17T16:01:30+00:00">August 17th 2020</time>
               </span>
 
           
@@ -653,7 +739,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: July 28th 2020 09:20:12" itemprop="dateModified" datetime="2020-07-28T09:20:12+00:00">July 28th 2020</time>
+                <time title="Modified: August 17th 2020 16:01:30" itemprop="dateModified" datetime="2020-08-17T16:01:30+00:00">August 17th 2020</time>
               </span>
 
           
@@ -720,7 +806,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: July 28th 2020 09:20:12" itemprop="dateModified" datetime="2020-07-28T09:20:12+00:00">July 28th 2020</time>
+                <time title="Modified: August 17th 2020 16:01:30" itemprop="dateModified" datetime="2020-08-17T16:01:30+00:00">August 17th 2020</time>
               </span>
 
           
@@ -822,7 +908,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">7</span>
+          <span class="site-state-item-count">8</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
