@@ -29,7 +29,7 @@
 <meta property="og:locale" content="en_US">
 <meta property="og:image" content="https://i.pinimg.com/originals/f2/09/84/f20984b12874d68b5443dbbd124e22cc.gif">
 <meta property="article:published_time" content="2020-08-26T18:38:19.000Z">
-<meta property="article:modified_time" content="2020-08-26T13:42:23.572Z">
+<meta property="article:modified_time" content="2020-08-28T18:38:35.241Z">
 <meta property="article:author" content="Samesh Lakhotia">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https://i.pinimg.com/originals/f2/09/84/f20984b12874d68b5443dbbd124e22cc.gif">
@@ -134,7 +134,7 @@
   </li>
         <li class="menu-item menu-item-archives">
 
-    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives<span class="badge">9</span></a>
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives<span class="badge">10</span></a>
 
   </li>
   </ul>
@@ -188,10 +188,16 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">Posted on</span>
-              
 
-              <time title="Created: August 26th 2020 18:38:19 / Modified: 13:42:23" itemprop="dateCreated datePublished" datetime="2020-08-26T18:38:19+00:00">August 26th 2020</time>
+              <time title="Created: August 26th 2020 18:38:19" itemprop="dateCreated datePublished" datetime="2020-08-26T18:38:19+00:00">August 26th 2020</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: August 28th 2020 18:38:35" itemprop="dateModified" datetime="2020-08-28T18:38:35+00:00">August 28th 2020</time>
+              </span>
 
           
 
@@ -219,11 +225,13 @@
 <figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">"@context"</span>: <span class="string">"/serverapi/contexts/LogEntryCollection.jsonld"</span>,</span><br><span class="line">  <span class="attr">"@id"</span>: <span class="string">"/serverapi/LogEntryCollection/50ed3b68-9437-4c68-93d4-b67013b9d412"</span>,</span><br><span class="line">  <span class="attr">"@type"</span>: <span class="string">"LogEntryCollection"</span>,</span><br><span class="line">  <span class="attr">"members"</span>: [</span><br><span class="line">    &#123;</span><br><span class="line">      <span class="attr">"@id"</span>: <span class="string">"/serverapi/LogEntry/aab38f9d-516a-4bb2-ae16-068c0c5345bd"</span>,</span><br><span class="line">      <span class="attr">"@type"</span>: <span class="string">"hydra:Link"</span></span><br><span class="line">    &#125;,</span><br><span class="line">    &#123;</span><br><span class="line">      <span class="attr">"@id"</span>: <span class="string">"/serverapi/Drone/4ff14a9e-9cd0-4e8a-9c11-86ac9bec211f"</span>,</span><br><span class="line">      <span class="attr">"@type"</span>: <span class="string">"hydra:Link"</span></span><br><span class="line">    &#125;</span><br><span class="line">  ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <h2 id="Other-work"><a href="#Other-work" class="headerlink" title="Other work"></a>Other work</h2><p>Other than working on the above feature, I spent fixing a minor bug in <code>hydrus</code>.<br>The PR for this fix is <a href="https://github.com/HTTP-APIs/hydrus/pull/496" target="_blank" rel="noopener">here</a>.</p>
+<p>Also, added documentation(much needed, for open source projects) on utilizing the new endpoints for managing collections. Also, updated old docs where necessary.<br>The PR for the same is <a href="https://github.com/HTTP-APIs/http-apis.github.io/pull/82" target="_blank" rel="noopener">here</a>.</p>
 <h2 id="Learnings-Work-done"><a href="#Learnings-Work-done" class="headerlink" title="Learnings / Work done"></a>Learnings / Work done</h2><p>I became more adept using the tools in the HydraEcosystem.</p>
 <p>My PRs in this period:</p>
 <ul>
 <li>Add support for multiple resource type collections - PR <a href="https://github.com/HTTP-APIs/hydrus/pull/493" target="_blank" rel="noopener">#493</a></li>
 <li>Fix docker bug in <code>hydrus</code> - PR <a href="https://github.com/HTTP-APIs/hydrus/pull/496" target="_blank" rel="noopener">#496</a></li>
+<li>Documention for <code>hydrus</code> - PR <a href="https://github.com/HTTP-APIs/http-apis.github.io/pull/82" target="_blank" rel="noopener">#82</a></li>
 </ul>
 <h2 id="Next-Steps"><a href="#Next-Steps" class="headerlink" title="Next Steps"></a>Next Steps</h2><p>As, this week marks the culmination of the period of my Google Summer of Code 2020 journey, it was quite emotional for me.<br>I had one of the best experiences of my life contributing to HydraEcosystem.org during this period. I learnt a lot in the last 4 months of GSoC. From working as a team to collaborating on open source software.</p>
 <p>I have also been added the HydraEcosystem organisation. I will use this opportunity to keep contributing to HydraEcosystem[and other open source projects too;)] even after my GSoC 2020 period. I have talked to with my mentors on the other interesting stuff they are working in the organisation and how I could possibly start working on them.</p>
@@ -249,7 +257,10 @@
     <a href="/week-10/" rel="prev" title="GSoC 2020 - Week 10 (Another good news!)">
       <i class="fa fa-chevron-left"></i> GSoC 2020 - Week 10 (Another good news!)
     </a></div>
-      <div class="post-nav-item"></div>
+      <div class="post-nav-item">
+    <a href="/GSoC-2020-Summary/" rel="next" title="Google Summer of Code 2020 Summary - Hydra Ecosystem">
+      Google Summer of Code 2020 Summary - Hydra Ecosystem <i class="fa fa-chevron-right"></i>
+    </a></div>
     </div>
       </footer>
     
@@ -324,7 +335,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">9</span>
+          <span class="site-state-item-count">10</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>

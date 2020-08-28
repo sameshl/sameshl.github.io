@@ -1,0 +1,497 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/samesh-favicon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/samesh-favicon.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/samesh-favicon.png">
+  <link rel="mask-icon" href="/images/samesh-favicon.png" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"www.sameshlakhotia.tech","root":"/","scheme":"Mist","version":"8.0.0-rc.3","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="Hi there!  I’m Samesh Lakhotia and this post aims to summarize my journey throughout Google Summer of Code 2020. It has been three months of intensive learning and a remarkable experience as a develop">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Google Summer of Code 2020 Summary - Hydra Ecosystem">
+<meta property="og:url" content="https://www.sameshlakhotia.tech/GSoC-2020-Summary/index.html">
+<meta property="og:site_name" content="Samesh Lakhotia">
+<meta property="og:description" content="Hi there!  I’m Samesh Lakhotia and this post aims to summarize my journey throughout Google Summer of Code 2020. It has been three months of intensive learning and a remarkable experience as a develop">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2020-08-27T13:36:11.000Z">
+<meta property="article:modified_time" content="2020-08-28T18:38:35.241Z">
+<meta property="article:author" content="Samesh Lakhotia">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://www.sameshlakhotia.tech/GSoC-2020-Summary/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
+
+  <title>Google Summer of Code 2020 Summary - Hydra Ecosystem | Samesh Lakhotia</title>
+  
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-169390335-1"></script>
+    <script>
+      if (CONFIG.hostname === location.hostname) {
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'UA-169390335-1');
+      }
+    </script>
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+        <span class="toggle-line toggle-line-first"></span>
+        <span class="toggle-line toggle-line-middle"></span>
+        <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Samesh Lakhotia</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about-me/" rel="section"><i class="fa fa-user fa-fw"></i>About</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives<span class="badge">10</span></a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://www.sameshlakhotia.tech/GSoC-2020-Summary/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/samesh-avatar.png">
+      <meta itemprop="name" content="Samesh Lakhotia">
+      <meta itemprop="description" content="Software Development is 💙">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Samesh Lakhotia">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Google Summer of Code 2020 Summary - Hydra Ecosystem
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: August 27th 2020 13:36:11" itemprop="dateCreated datePublished" datetime="2020-08-27T13:36:11+00:00">August 27th 2020</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: August 28th 2020 18:38:35" itemprop="dateModified" datetime="2020-08-28T18:38:35+00:00">August 28th 2020</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>Hi there! </p>
+<p>I’m Samesh Lakhotia and this post aims to summarize my journey throughout Google Summer of Code 2020. It has been three months of intensive learning and a remarkable experience as a developer which was divided into three coding phases. This has been one the most productive and enriching summers of my life.<br>I’ll divide each phase citing its goal, small description and core PR links attached to each. I’ve also made detailed blog posts during each phase(bi-weekly) and they’re linked in the end of each section. The last part has some diverse auxiliary merged contributions done along the way.</p>
+<p><a href="https://github.com/HTTP-APIs" target="_blank" rel="noopener">Our community</a> has different tools including a working server that can be built from a Hydra Doc, a.k.a <a href="https://github.com/HTTP-APIs/hydrus" target="_blank" rel="noopener"><code>hydrus</code></a>, a Python Agent to work with that server, a.k.a <a href="https://github.com/HTTP-APIs/hydra-python-agent" target="_blank" rel="noopener"><code>hydra-python-agent</code></a> and the core library to handle all the major parsing of Hydra Docs, a.k.a <a href="https://github.com/HTTP-APIs/hydra-python-core" target="_blank" rel="noopener"><code>hydra-python-core</code></a>. I and my GSoC colleague <a href="https://github.com/priyanshunayan" target="_blank" rel="noopener">Priyanshu Nayan</a> had a series of improvements to make, in which Priyanshu was leading Hydra Agents’ and Core library changes and I was responsible for the <code>hydrus</code> side.</p>
+<h1 id="Phase-1-hydrus-database-architecture-improvements"><a href="#Phase-1-hydrus-database-architecture-improvements" class="headerlink" title="[Phase 1] - hydrus database architecture improvements"></a>[Phase 1] - <code>hydrus</code> database architecture improvements</h1><p>The first phase of GSoC was marked by <strong>intensive study and discussions</strong>. I was in charge of optimising the existing database architecture of <code>hydrus</code>. The basic idea was to go from a <strong>generic</strong> database schema to one where <strong>different type of resources are stored in different tables</strong> to improve scalability and efficiency. To start this task, I had to get really comfortable with the existing database architecture.</p>
+<p>Then, I had detailed discussed with the mentors on the possible architecture and then proceeded to the coding and lastly documenting it. References for this phase are as below:</p>
+<h4 id="Goal"><a href="#Goal" class="headerlink" title="Goal:"></a>Goal:</h4><ul>
+<li>Research and implement <strong>better multiple-table architecture</strong> - database architecture where different type of resources are stored in different tables to improve scalability and efficiency</li>
+</ul>
+<h4 id="Pull-Requests"><a href="#Pull-Requests" class="headerlink" title="Pull Requests:"></a>Pull Requests:</h4><ul>
+<li><a href="https://github.com/HTTP-APIs/hydrus/pull/479" target="_blank" rel="noopener">[PR 479] Make db tables for each resource in apidoc</a></li>
+</ul>
+<h4 id="Extra-Reference-links"><a href="#Extra-Reference-links" class="headerlink" title="Extra Reference links:"></a>Extra Reference links:</h4><ul>
+<li>Older linked issues: <a href="https://github.com/HTTP-APIs/hydrus/issues/412" target="_blank" rel="noopener">Research better multiple-table architecture</a></li>
+</ul>
+<h4 id="Detailed-blog-posts-during-this-phase"><a href="#Detailed-blog-posts-during-this-phase" class="headerlink" title="Detailed blog posts during this phase:"></a>Detailed blog posts during this phase:</h4><ul>
+<li><a href="https://www.sameshlakhotia.tech/week-2/">GSoC 2020 - Week 2</a></li>
+<li><a href="https://www.sameshlakhotia.tech/week-4/">GSoC 2020 - Week 4</a></li>
+</ul>
+<h1 id="Phase-2-Treating-collections-as-a-Resource"><a href="#Phase-2-Treating-collections-as-a-Resource" class="headerlink" title="[Phase 2] - Treating collections as a Resource"></a>[Phase 2] - Treating collections as a Resource</h1><p>The second phase of GSoC consisted of mainly two new features and enhancements. These were some old issues in <code>hydrus</code> which needed to get fixed from a long time.<br>These included the ability to <strong>treat collection as a resource</strong> (and therefore, create custom collection instances) and also removing the unnecessary dependency of using <strong>“*Collection” as default notation</strong> for naming Collection resources.</p>
+<h4 id="Goal-1"><a href="#Goal-1" class="headerlink" title="Goal:"></a>Goal:</h4><ul>
+<li>Improve <code>hydrus</code> by adding feature of treating Collection as a resource and remove the dependency of using “*Collection” as default notation for naming Collection resources</li>
+</ul>
+<h4 id="Pull-Requests-1"><a href="#Pull-Requests-1" class="headerlink" title="Pull Requests:"></a>Pull Requests:</h4><ul>
+<li>Collection as a Resource<ul>
+<li><a href="https://github.com/HTTP-APIs/hydrus/pull/488" target="_blank" rel="noopener">[PR 488] Treating Collection as a Resource</a></li>
+</ul>
+</li>
+<li>Removing dependency of “*Collection” on naming Collection resources<ul>
+<li><a href="https://github.com/HTTP-APIs/hydra-python-core/pull/41" target="_blank" rel="noopener">[PR 41] Discover collections in doc_maker.py</a></li>
+<li><a href="https://github.com/HTTP-APIs/hydrus/pull/483" target="_blank" rel="noopener">[PR 483] Better discover collection</a></li>
+</ul>
+</li>
+</ul>
+<h4 id="Extra-Reference-links-1"><a href="#Extra-Reference-links-1" class="headerlink" title="Extra Reference links:"></a>Extra Reference links:</h4><ul>
+<li>Older linked issues: <a href="https://github.com/HTTP-APIs/hydrus/issues/416" target="_blank" rel="noopener">Treating collections as a resource</a> - <a href="https://github.com/HTTP-APIs/hydrus/issues/487" target="_blank" rel="noopener">[DISCUSSION] Database design for treating collections as a resource</a> - <a href="https://github.com/HTTP-APIs/hydra-python-core/issues/39" target="_blank" rel="noopener">Discovering Classes and Collections from the APIDOC</a></li>
+</ul>
+<h4 id="Detailed-blog-posts-during-this-phase-1"><a href="#Detailed-blog-posts-during-this-phase-1" class="headerlink" title="Detailed blog posts during this phase:"></a>Detailed blog posts during this phase:</h4><ul>
+<li><a href="https://www.sameshlakhotia.tech/week-6/">GSoC 2020 - Week 6</a></li>
+<li><a href="https://www.sameshlakhotia.tech/week-8/">GSoC 2020 - Week 8</a></li>
+</ul>
+<h1 id="Phase-3-More-features-in-hydrus"><a href="#Phase-3-More-features-in-hydrus" class="headerlink" title="[Phase 3] - More features in hydrus!"></a>[Phase 3] - More features in <code>hydrus</code>!</h1><p>As the last phase started, we had covered a considerable amount of the core goals we had and now was time to close things out with a some last additions. We wanted some more features in <code>hydrus</code> which included <strong>removing hardcoded dependencies on vocab keyword</strong> and adding support for <strong>multiple resource type collections</strong>.</p>
+<h4 id="Goal-2"><a href="#Goal-2" class="headerlink" title="Goal:"></a>Goal:</h4><ul>
+<li>Improve <code>hydrus</code> with main feature of multiple resource type collections and removing hardcoded dependency on vocab keyword and wrap up bug fixes and documentation.</li>
+</ul>
+<h4 id="Pull-Requests-2"><a href="#Pull-Requests-2" class="headerlink" title="Pull Requests:"></a>Pull Requests:</h4><ul>
+<li>Removing hardcoded dependencies on vocab keyword<ul>
+<li><a href="https://github.com/HTTP-APIs/hydrus/pull/490" target="_blank" rel="noopener">[PR 490] Remove hardcoded dependencies on vocab keyword</a></li>
+</ul>
+</li>
+<li>Adding support for multiple resource type collections<ul>
+<li><a href="https://github.com/HTTP-APIs/hydrus/pull/493" target="_blank" rel="noopener">[PR 493] Multiple resource type collections</a></li>
+</ul>
+</li>
+<li>Other minor bug fixes<ul>
+<li><a href="https://github.com/HTTP-APIs/hydrus/pull/492" target="_blank" rel="noopener">[PR 492] Rectify GET on /collection endpoint</a></li>
+<li><a href="https://github.com/HTTP-APIs/hydrus/pull/496" target="_blank" rel="noopener">[PR 496] FIX: failing docker build</a></li>
+</ul>
+</li>
+</ul>
+<h4 id="Extra-Reference-links-2"><a href="#Extra-Reference-links-2" class="headerlink" title="Extra Reference links:"></a>Extra Reference links:</h4><ul>
+<li>Older linked issues: <a href="https://github.com/HTTP-APIs/hydrus/issues/482" target="_blank" rel="noopener">hydrus hardcoded with ‘vocab:’ to check foreign key relationship</a> - <a href="https://github.com/HTTP-APIs/hydrus/issues/489" target="_blank" rel="noopener">Multiple resource type collections</a></li>
+</ul>
+<h4 id="Detailed-blog-posts-during-this-phase-2"><a href="#Detailed-blog-posts-during-this-phase-2" class="headerlink" title="Detailed blog posts during this phase:"></a>Detailed blog posts during this phase:</h4><ul>
+<li><a href="https://www.sameshlakhotia.tech/week-10/">GSoC 2020 - Week 10</a></li>
+<li><a href="https://www.sameshlakhotia.tech/week-12/">GSoC 2020 - Week 12</a></li>
+</ul>
+<h1 id="Auxiliary-Contributions"><a href="#Auxiliary-Contributions" class="headerlink" title="Auxiliary Contributions"></a>Auxiliary Contributions</h1><p>There were a some additional contributions made along the way and during the Community Bonding that will be mentioned for consistency but were mainly auxiliary:</p>
+<h4 id="hydrus"><a href="#hydrus" class="headerlink" title="hydrus"></a>hydrus</h4><ul>
+<li><a href="https://github.com/HTTP-APIs/hydrus/pull/478" target="_blank" rel="noopener">[PR 478] Refactoring</a></li>
+<li><a href="https://github.com/HTTP-APIs/hydrus/pull/476" target="_blank" rel="noopener">[PR 476] Make the defaults same</a></li>
+<li><a href="https://github.com/HTTP-APIs/hydrus/pull/474" target="_blank" rel="noopener">[PR 474] docker-compose was failing with SSL error</a></li>
+<li><a href="https://github.com/HTTP-APIs/hydrus/pull/478" target="_blank" rel="noopener">[PR 478] Regenerate the examples/drones/doc.py</a></li>
+<li><a href="https://github.com/HTTP-APIs/hydrus/pull/495" target="_blank" rel="noopener">[PR 495] Add docs on database of hydrus</a></li>
+<li><a href="https://github.com/HTTP-APIs/hydrus/pull/484" target="_blank" rel="noopener">[PR 484] Update Docker image to use python 3.7</a></li>
+</ul>
+<h4 id="hydra-python-core"><a href="#hydra-python-core" class="headerlink" title="hydra-python-core"></a>hydra-python-core</h4><ul>
+<li><a href="https://github.com/HTTP-APIs/hydra-python-core/pull/46" target="_blank" rel="noopener">[PR 46] Add support for POST and DELETE on collection classes</a></li>
+</ul>
+<h4 id="documentation-hydrus"><a href="#documentation-hydrus" class="headerlink" title="documentation-hydrus"></a>documentation-hydrus</h4><ul>
+<li><a href="https://github.com/HTTP-APIs/documentation-hydrus/pull/14" target="_blank" rel="noopener">[PR 14] Update docs to latest hydrus api</a></li>
+</ul>
+<h4 id="http-apis-github-io"><a href="#http-apis-github-io" class="headerlink" title="http-apis.github.io"></a>http-apis.github.io</h4><ul>
+<li><a href="https://github.com/HTTP-APIs/http-apis.github.io/pull/79" target="_blank" rel="noopener">[PR 79] Add docs on searching in hydrus</a></li>
+<li><a href="https://github.com/HTTP-APIs/http-apis.github.io/pull/78" target="_blank" rel="noopener">[PR 78] Add page on CRUD operations with hydrus</a></li>
+<li><a href="https://github.com/HTTP-APIs/http-apis.github.io/pull/82" target="_blank" rel="noopener">[PR 82] Add docs on collection as a resource and update previous docs</a></li>
+</ul>
+<h1 id="Acknowledgments"><a href="#Acknowledgments" class="headerlink" title="Acknowledgments"></a>Acknowledgments</h1><p>The GSoC 2020 journey now comes to an end. I have to say it was personally a really important development phase for me and an experience that I’ll remember forever. I feel now that I’ve progressed as a Software Developer and also that we were able to progress and take Hydra Ecosystem development a little bit further with a group of people spread in the world.</p>
+<p>I have also been added the HydraEcosystem organisation. I will use this opportunity to keep contributing to HydraEcosystem[and other open source projects too;)] even after my GSoC 2020 period. I have talked to with my mentors on the other interesting stuff they are working in the organisation and how I could possibly start working on them.</p>
+<p>And of course, all of that would not be possible without the support, time and will of my amazing mentors <a href="https://github.com/chrizandr" target="_blank" rel="noopener">Chris Andrew</a>, <a href="https://github.com/xadahiya" target="_blank" rel="noopener">Akshay Dahiya</a> and <a href="https://github.com/Mec-iS" target="_blank" rel="noopener">Lorenzo</a>. Whom have been, not only this summer but for years, cultivating the Hydra Ecosystem and giving their time and effort to develop this concept and provide the opportunity for other people to join and learn. My honest thanks for the knowledge and trust you’ve shared with me, it’s something that I’ll take with me in my career to become a better professional.<br>I also have to give a huge shout out to my GSoC partner <a href="https://github.com/priyanshunayan" target="_blank" rel="noopener">Priyanshu Nayan</a> who helped me a lot whenever I was stuck debugging something, having a doubt in the Hydra spec or any help in general.</p>
+<p>To sum it up, I think this is a start to my journey in open source software rather than end to my GSoC period.</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/week-12/" rel="prev" title="GSoC 2020 - Week 12">
+      <i class="fa fa-chevron-left"></i> GSoC 2020 - Week 12
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Phase-1-hydrus-database-architecture-improvements"><span class="nav-number">1.</span> <span class="nav-text">[Phase 1] - hydrus database architecture improvements</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Goal"><span class="nav-number">1.0.0.1.</span> <span class="nav-text">Goal:</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Pull-Requests"><span class="nav-number">1.0.0.2.</span> <span class="nav-text">Pull Requests:</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Extra-Reference-links"><span class="nav-number">1.0.0.3.</span> <span class="nav-text">Extra Reference links:</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Detailed-blog-posts-during-this-phase"><span class="nav-number">1.0.0.4.</span> <span class="nav-text">Detailed blog posts during this phase:</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Phase-2-Treating-collections-as-a-Resource"><span class="nav-number">2.</span> <span class="nav-text">[Phase 2] - Treating collections as a Resource</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Goal-1"><span class="nav-number">2.0.0.1.</span> <span class="nav-text">Goal:</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Pull-Requests-1"><span class="nav-number">2.0.0.2.</span> <span class="nav-text">Pull Requests:</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Extra-Reference-links-1"><span class="nav-number">2.0.0.3.</span> <span class="nav-text">Extra Reference links:</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Detailed-blog-posts-during-this-phase-1"><span class="nav-number">2.0.0.4.</span> <span class="nav-text">Detailed blog posts during this phase:</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Phase-3-More-features-in-hydrus"><span class="nav-number">3.</span> <span class="nav-text">[Phase 3] - More features in hydrus!</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Goal-2"><span class="nav-number">3.0.0.1.</span> <span class="nav-text">Goal:</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Pull-Requests-2"><span class="nav-number">3.0.0.2.</span> <span class="nav-text">Pull Requests:</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Extra-Reference-links-2"><span class="nav-number">3.0.0.3.</span> <span class="nav-text">Extra Reference links:</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Detailed-blog-posts-during-this-phase-2"><span class="nav-number">3.0.0.4.</span> <span class="nav-text">Detailed blog posts during this phase:</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Auxiliary-Contributions"><span class="nav-number">4.</span> <span class="nav-text">Auxiliary Contributions</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#hydrus"><span class="nav-number">4.0.0.1.</span> <span class="nav-text">hydrus</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#hydra-python-core"><span class="nav-number">4.0.0.2.</span> <span class="nav-text">hydra-python-core</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#documentation-hydrus"><span class="nav-number">4.0.0.3.</span> <span class="nav-text">documentation-hydrus</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#http-apis-github-io"><span class="nav-number">4.0.0.4.</span> <span class="nav-text">http-apis.github.io</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Acknowledgments"><span class="nav-number">5.</span> <span class="nav-text">Acknowledgments</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Samesh Lakhotia"
+      src="/images/samesh-avatar.png">
+  <p class="site-author-name" itemprop="name">Samesh Lakhotia</p>
+  <div class="site-description" itemprop="description">Software Development is 💙</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">10</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/sameshl" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;sameshl" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:samesh.lakhotia+work@gmail.com" title="E-Mail → mailto:samesh.lakhotia+work@gmail.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://twitter.com/samesh_l" title="Twitter → https:&#x2F;&#x2F;twitter.com&#x2F;samesh_l" rel="noopener" target="_blank"><i class="fab fa-twitter fa-fw"></i>Twitter</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.linkedin.com/in/samesh-lakhotia/" title="Linkedin → https:&#x2F;&#x2F;www.linkedin.com&#x2F;in&#x2F;samesh-lakhotia&#x2F;" rel="noopener" target="_blank"><i class="fab fa-linkedin fa-fw"></i>Linkedin</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Samesh Lakhotia</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/mist/" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

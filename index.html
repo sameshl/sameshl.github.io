@@ -130,7 +130,7 @@
   </li>
         <li class="menu-item menu-item-archives">
 
-    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives<span class="badge">9</span></a>
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives<span class="badge">10</span></a>
 
   </li>
   </ul>
@@ -161,6 +161,160 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://www.sameshlakhotia.tech/GSoC-2020-Summary/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/samesh-avatar.png">
+      <meta itemprop="name" content="Samesh Lakhotia">
+      <meta itemprop="description" content="Software Development is 💙">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Samesh Lakhotia">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/GSoC-2020-Summary/" class="post-title-link" itemprop="url">Google Summer of Code 2020 Summary - Hydra Ecosystem</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: August 27th 2020 13:36:11" itemprop="dateCreated datePublished" datetime="2020-08-27T13:36:11+00:00">August 27th 2020</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: August 28th 2020 18:38:35" itemprop="dateModified" datetime="2020-08-28T18:38:35+00:00">August 28th 2020</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>Hi there! </p>
+<p>I’m Samesh Lakhotia and this post aims to summarize my journey throughout Google Summer of Code 2020. It has been three months of intensive learning and a remarkable experience as a developer which was divided into three coding phases. This has been one the most productive and enriching summers of my life.<br>I’ll divide each phase citing its goal, small description and core PR links attached to each. I’ve also made detailed blog posts during each phase(bi-weekly) and they’re linked in the end of each section. The last part has some diverse auxiliary merged contributions done along the way.</p>
+<p><a href="https://github.com/HTTP-APIs" target="_blank" rel="noopener">Our community</a> has different tools including a working server that can be built from a Hydra Doc, a.k.a <a href="https://github.com/HTTP-APIs/hydrus" target="_blank" rel="noopener"><code>hydrus</code></a>, a Python Agent to work with that server, a.k.a <a href="https://github.com/HTTP-APIs/hydra-python-agent" target="_blank" rel="noopener"><code>hydra-python-agent</code></a> and the core library to handle all the major parsing of Hydra Docs, a.k.a <a href="https://github.com/HTTP-APIs/hydra-python-core" target="_blank" rel="noopener"><code>hydra-python-core</code></a>. I and my GSoC colleague <a href="https://github.com/priyanshunayan" target="_blank" rel="noopener">Priyanshu Nayan</a> had a series of improvements to make, in which Priyanshu was leading Hydra Agents’ and Core library changes and I was responsible for the <code>hydrus</code> side.</p>
+<h1 id="Phase-1-hydrus-database-architecture-improvements"><a href="#Phase-1-hydrus-database-architecture-improvements" class="headerlink" title="[Phase 1] - hydrus database architecture improvements"></a>[Phase 1] - <code>hydrus</code> database architecture improvements</h1><p>The first phase of GSoC was marked by <strong>intensive study and discussions</strong>. I was in charge of optimising the existing database architecture of <code>hydrus</code>. The basic idea was to go from a <strong>generic</strong> database schema to one where <strong>different type of resources are stored in different tables</strong> to improve scalability and efficiency. To start this task, I had to get really comfortable with the existing database architecture.</p>
+<p>Then, I had detailed discussed with the mentors on the possible architecture and then proceeded to the coding and lastly documenting it. References for this phase are as below:</p>
+<h4 id="Goal"><a href="#Goal" class="headerlink" title="Goal:"></a>Goal:</h4><ul>
+<li>Research and implement <strong>better multiple-table architecture</strong> - database architecture where different type of resources are stored in different tables to improve scalability and efficiency</li>
+</ul>
+<h4 id="Pull-Requests"><a href="#Pull-Requests" class="headerlink" title="Pull Requests:"></a>Pull Requests:</h4><ul>
+<li><a href="https://github.com/HTTP-APIs/hydrus/pull/479" target="_blank" rel="noopener">[PR 479] Make db tables for each resource in apidoc</a></li>
+</ul>
+<h4 id="Extra-Reference-links"><a href="#Extra-Reference-links" class="headerlink" title="Extra Reference links:"></a>Extra Reference links:</h4><ul>
+<li>Older linked issues: <a href="https://github.com/HTTP-APIs/hydrus/issues/412" target="_blank" rel="noopener">Research better multiple-table architecture</a></li>
+</ul>
+<h4 id="Detailed-blog-posts-during-this-phase"><a href="#Detailed-blog-posts-during-this-phase" class="headerlink" title="Detailed blog posts during this phase:"></a>Detailed blog posts during this phase:</h4><ul>
+<li><a href="https://www.sameshlakhotia.tech/week-2/">GSoC 2020 - Week 2</a></li>
+<li><a href="https://www.sameshlakhotia.tech/week-4/">GSoC 2020 - Week 4</a></li>
+</ul>
+<h1 id="Phase-2-Treating-collections-as-a-Resource"><a href="#Phase-2-Treating-collections-as-a-Resource" class="headerlink" title="[Phase 2] - Treating collections as a Resource"></a>[Phase 2] - Treating collections as a Resource</h1><p>The second phase of GSoC consisted of mainly two new features and enhancements. These were some old issues in <code>hydrus</code> which needed to get fixed from a long time.<br>These included the ability to <strong>treat collection as a resource</strong> (and therefore, create custom collection instances) and also removing the unnecessary dependency of using <strong>“*Collection” as default notation</strong> for naming Collection resources.</p>
+<h4 id="Goal-1"><a href="#Goal-1" class="headerlink" title="Goal:"></a>Goal:</h4><ul>
+<li>Improve <code>hydrus</code> by adding feature of treating Collection as a resource and remove the dependency of using “*Collection” as default notation for naming Collection resources</li>
+</ul>
+<h4 id="Pull-Requests-1"><a href="#Pull-Requests-1" class="headerlink" title="Pull Requests:"></a>Pull Requests:</h4><ul>
+<li>Collection as a Resource<ul>
+<li><a href="https://github.com/HTTP-APIs/hydrus/pull/488" target="_blank" rel="noopener">[PR 488] Treating Collection as a Resource</a></li>
+</ul>
+</li>
+<li>Removing dependency of “*Collection” on naming Collection resources<ul>
+<li><a href="https://github.com/HTTP-APIs/hydra-python-core/pull/41" target="_blank" rel="noopener">[PR 41] Discover collections in doc_maker.py</a></li>
+<li><a href="https://github.com/HTTP-APIs/hydrus/pull/483" target="_blank" rel="noopener">[PR 483] Better discover collection</a></li>
+</ul>
+</li>
+</ul>
+<h4 id="Extra-Reference-links-1"><a href="#Extra-Reference-links-1" class="headerlink" title="Extra Reference links:"></a>Extra Reference links:</h4><ul>
+<li>Older linked issues: <a href="https://github.com/HTTP-APIs/hydrus/issues/416" target="_blank" rel="noopener">Treating collections as a resource</a> - <a href="https://github.com/HTTP-APIs/hydrus/issues/487" target="_blank" rel="noopener">[DISCUSSION] Database design for treating collections as a resource</a> - <a href="https://github.com/HTTP-APIs/hydra-python-core/issues/39" target="_blank" rel="noopener">Discovering Classes and Collections from the APIDOC</a></li>
+</ul>
+<h4 id="Detailed-blog-posts-during-this-phase-1"><a href="#Detailed-blog-posts-during-this-phase-1" class="headerlink" title="Detailed blog posts during this phase:"></a>Detailed blog posts during this phase:</h4><ul>
+<li><a href="https://www.sameshlakhotia.tech/week-6/">GSoC 2020 - Week 6</a></li>
+<li><a href="https://www.sameshlakhotia.tech/week-8/">GSoC 2020 - Week 8</a></li>
+</ul>
+<h1 id="Phase-3-More-features-in-hydrus"><a href="#Phase-3-More-features-in-hydrus" class="headerlink" title="[Phase 3] - More features in hydrus!"></a>[Phase 3] - More features in <code>hydrus</code>!</h1><p>As the last phase started, we had covered a considerable amount of the core goals we had and now was time to close things out with a some last additions. We wanted some more features in <code>hydrus</code> which included <strong>removing hardcoded dependencies on vocab keyword</strong> and adding support for <strong>multiple resource type collections</strong>.</p>
+<h4 id="Goal-2"><a href="#Goal-2" class="headerlink" title="Goal:"></a>Goal:</h4><ul>
+<li>Improve <code>hydrus</code> with main feature of multiple resource type collections and removing hardcoded dependency on vocab keyword and wrap up bug fixes and documentation.</li>
+</ul>
+<h4 id="Pull-Requests-2"><a href="#Pull-Requests-2" class="headerlink" title="Pull Requests:"></a>Pull Requests:</h4><ul>
+<li>Removing hardcoded dependencies on vocab keyword<ul>
+<li><a href="https://github.com/HTTP-APIs/hydrus/pull/490" target="_blank" rel="noopener">[PR 490] Remove hardcoded dependencies on vocab keyword</a></li>
+</ul>
+</li>
+<li>Adding support for multiple resource type collections<ul>
+<li><a href="https://github.com/HTTP-APIs/hydrus/pull/493" target="_blank" rel="noopener">[PR 493] Multiple resource type collections</a></li>
+</ul>
+</li>
+<li>Other minor bug fixes<ul>
+<li><a href="https://github.com/HTTP-APIs/hydrus/pull/492" target="_blank" rel="noopener">[PR 492] Rectify GET on /collection endpoint</a></li>
+<li><a href="https://github.com/HTTP-APIs/hydrus/pull/496" target="_blank" rel="noopener">[PR 496] FIX: failing docker build</a></li>
+</ul>
+</li>
+</ul>
+<h4 id="Extra-Reference-links-2"><a href="#Extra-Reference-links-2" class="headerlink" title="Extra Reference links:"></a>Extra Reference links:</h4><ul>
+<li>Older linked issues: <a href="https://github.com/HTTP-APIs/hydrus/issues/482" target="_blank" rel="noopener">hydrus hardcoded with ‘vocab:’ to check foreign key relationship</a> - <a href="https://github.com/HTTP-APIs/hydrus/issues/489" target="_blank" rel="noopener">Multiple resource type collections</a></li>
+</ul>
+<h4 id="Detailed-blog-posts-during-this-phase-2"><a href="#Detailed-blog-posts-during-this-phase-2" class="headerlink" title="Detailed blog posts during this phase:"></a>Detailed blog posts during this phase:</h4><ul>
+<li><a href="https://www.sameshlakhotia.tech/week-10/">GSoC 2020 - Week 10</a></li>
+<li><a href="https://www.sameshlakhotia.tech/week-12/">GSoC 2020 - Week 12</a></li>
+</ul>
+<h1 id="Auxiliary-Contributions"><a href="#Auxiliary-Contributions" class="headerlink" title="Auxiliary Contributions"></a>Auxiliary Contributions</h1><p>There were a some additional contributions made along the way and during the Community Bonding that will be mentioned for consistency but were mainly auxiliary:</p>
+<h4 id="hydrus"><a href="#hydrus" class="headerlink" title="hydrus"></a>hydrus</h4><ul>
+<li><a href="https://github.com/HTTP-APIs/hydrus/pull/478" target="_blank" rel="noopener">[PR 478] Refactoring</a></li>
+<li><a href="https://github.com/HTTP-APIs/hydrus/pull/476" target="_blank" rel="noopener">[PR 476] Make the defaults same</a></li>
+<li><a href="https://github.com/HTTP-APIs/hydrus/pull/474" target="_blank" rel="noopener">[PR 474] docker-compose was failing with SSL error</a></li>
+<li><a href="https://github.com/HTTP-APIs/hydrus/pull/478" target="_blank" rel="noopener">[PR 478] Regenerate the examples/drones/doc.py</a></li>
+<li><a href="https://github.com/HTTP-APIs/hydrus/pull/495" target="_blank" rel="noopener">[PR 495] Add docs on database of hydrus</a></li>
+<li><a href="https://github.com/HTTP-APIs/hydrus/pull/484" target="_blank" rel="noopener">[PR 484] Update Docker image to use python 3.7</a></li>
+</ul>
+<h4 id="hydra-python-core"><a href="#hydra-python-core" class="headerlink" title="hydra-python-core"></a>hydra-python-core</h4><ul>
+<li><a href="https://github.com/HTTP-APIs/hydra-python-core/pull/46" target="_blank" rel="noopener">[PR 46] Add support for POST and DELETE on collection classes</a></li>
+</ul>
+<h4 id="documentation-hydrus"><a href="#documentation-hydrus" class="headerlink" title="documentation-hydrus"></a>documentation-hydrus</h4><ul>
+<li><a href="https://github.com/HTTP-APIs/documentation-hydrus/pull/14" target="_blank" rel="noopener">[PR 14] Update docs to latest hydrus api</a></li>
+</ul>
+<h4 id="http-apis-github-io"><a href="#http-apis-github-io" class="headerlink" title="http-apis.github.io"></a>http-apis.github.io</h4><ul>
+<li><a href="https://github.com/HTTP-APIs/http-apis.github.io/pull/79" target="_blank" rel="noopener">[PR 79] Add docs on searching in hydrus</a></li>
+<li><a href="https://github.com/HTTP-APIs/http-apis.github.io/pull/78" target="_blank" rel="noopener">[PR 78] Add page on CRUD operations with hydrus</a></li>
+<li><a href="https://github.com/HTTP-APIs/http-apis.github.io/pull/82" target="_blank" rel="noopener">[PR 82] Add docs on collection as a resource and update previous docs</a></li>
+</ul>
+<h1 id="Acknowledgments"><a href="#Acknowledgments" class="headerlink" title="Acknowledgments"></a>Acknowledgments</h1><p>The GSoC 2020 journey now comes to an end. I have to say it was personally a really important development phase for me and an experience that I’ll remember forever. I feel now that I’ve progressed as a Software Developer and also that we were able to progress and take Hydra Ecosystem development a little bit further with a group of people spread in the world.</p>
+<p>I have also been added the HydraEcosystem organisation. I will use this opportunity to keep contributing to HydraEcosystem[and other open source projects too;)] even after my GSoC 2020 period. I have talked to with my mentors on the other interesting stuff they are working in the organisation and how I could possibly start working on them.</p>
+<p>And of course, all of that would not be possible without the support, time and will of my amazing mentors <a href="https://github.com/chrizandr" target="_blank" rel="noopener">Chris Andrew</a>, <a href="https://github.com/xadahiya" target="_blank" rel="noopener">Akshay Dahiya</a> and <a href="https://github.com/Mec-iS" target="_blank" rel="noopener">Lorenzo</a>. Whom have been, not only this summer but for years, cultivating the Hydra Ecosystem and giving their time and effort to develop this concept and provide the opportunity for other people to join and learn. My honest thanks for the knowledge and trust you’ve shared with me, it’s something that I’ll take with me in my career to become a better professional.<br>I also have to give a huge shout out to my GSoC partner <a href="https://github.com/priyanshunayan" target="_blank" rel="noopener">Priyanshu Nayan</a> who helped me a lot whenever I was stuck debugging something, having a doubt in the Hydra spec or any help in general.</p>
+<p>To sum it up, I think this is a start to my journey in open source software rather than end to my GSoC period.</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
     <link itemprop="mainEntityOfPage" href="https://www.sameshlakhotia.tech/week-12/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -184,10 +338,16 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">Posted on</span>
-              
 
-              <time title="Created: August 26th 2020 18:38:19 / Modified: 13:42:23" itemprop="dateCreated datePublished" datetime="2020-08-26T18:38:19+00:00">August 26th 2020</time>
+              <time title="Created: August 26th 2020 18:38:19" itemprop="dateCreated datePublished" datetime="2020-08-26T18:38:19+00:00">August 26th 2020</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: August 28th 2020 18:38:35" itemprop="dateModified" datetime="2020-08-28T18:38:35+00:00">August 28th 2020</time>
+              </span>
 
           
 
@@ -215,11 +375,13 @@
 <figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">"@context"</span>: <span class="string">"/serverapi/contexts/LogEntryCollection.jsonld"</span>,</span><br><span class="line">  <span class="attr">"@id"</span>: <span class="string">"/serverapi/LogEntryCollection/50ed3b68-9437-4c68-93d4-b67013b9d412"</span>,</span><br><span class="line">  <span class="attr">"@type"</span>: <span class="string">"LogEntryCollection"</span>,</span><br><span class="line">  <span class="attr">"members"</span>: [</span><br><span class="line">    &#123;</span><br><span class="line">      <span class="attr">"@id"</span>: <span class="string">"/serverapi/LogEntry/aab38f9d-516a-4bb2-ae16-068c0c5345bd"</span>,</span><br><span class="line">      <span class="attr">"@type"</span>: <span class="string">"hydra:Link"</span></span><br><span class="line">    &#125;,</span><br><span class="line">    &#123;</span><br><span class="line">      <span class="attr">"@id"</span>: <span class="string">"/serverapi/Drone/4ff14a9e-9cd0-4e8a-9c11-86ac9bec211f"</span>,</span><br><span class="line">      <span class="attr">"@type"</span>: <span class="string">"hydra:Link"</span></span><br><span class="line">    &#125;</span><br><span class="line">  ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <h2 id="Other-work"><a href="#Other-work" class="headerlink" title="Other work"></a>Other work</h2><p>Other than working on the above feature, I spent fixing a minor bug in <code>hydrus</code>.<br>The PR for this fix is <a href="https://github.com/HTTP-APIs/hydrus/pull/496" target="_blank" rel="noopener">here</a>.</p>
+<p>Also, added documentation(much needed, for open source projects) on utilizing the new endpoints for managing collections. Also, updated old docs where necessary.<br>The PR for the same is <a href="https://github.com/HTTP-APIs/http-apis.github.io/pull/82" target="_blank" rel="noopener">here</a>.</p>
 <h2 id="Learnings-Work-done"><a href="#Learnings-Work-done" class="headerlink" title="Learnings / Work done"></a>Learnings / Work done</h2><p>I became more adept using the tools in the HydraEcosystem.</p>
 <p>My PRs in this period:</p>
 <ul>
 <li>Add support for multiple resource type collections - PR <a href="https://github.com/HTTP-APIs/hydrus/pull/493" target="_blank" rel="noopener">#493</a></li>
 <li>Fix docker bug in <code>hydrus</code> - PR <a href="https://github.com/HTTP-APIs/hydrus/pull/496" target="_blank" rel="noopener">#496</a></li>
+<li>Documention for <code>hydrus</code> - PR <a href="https://github.com/HTTP-APIs/http-apis.github.io/pull/82" target="_blank" rel="noopener">#82</a></li>
 </ul>
 <h2 id="Next-Steps"><a href="#Next-Steps" class="headerlink" title="Next Steps"></a>Next Steps</h2><p>As, this week marks the culmination of the period of my Google Summer of Code 2020 journey, it was quite emotional for me.<br>I had one of the best experiences of my life contributing to HydraEcosystem.org during this period. I learnt a lot in the last 4 months of GSoC. From working as a team to collaborating on open source software.</p>
 <p>I have also been added the HydraEcosystem organisation. I will use this opportunity to keep contributing to HydraEcosystem[and other open source projects too;)] even after my GSoC 2020 period. I have talked to with my mentors on the other interesting stuff they are working in the organisation and how I could possibly start working on them.</p>
@@ -277,7 +439,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: August 26th 2020 13:42:23" itemprop="dateModified" datetime="2020-08-26T13:42:23+00:00">August 26th 2020</time>
+                <time title="Modified: August 28th 2020 18:38:35" itemprop="dateModified" datetime="2020-08-28T18:38:35+00:00">August 28th 2020</time>
               </span>
 
           
@@ -363,7 +525,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: August 26th 2020 13:42:23" itemprop="dateModified" datetime="2020-08-26T13:42:23+00:00">August 26th 2020</time>
+                <time title="Modified: August 28th 2020 18:38:35" itemprop="dateModified" datetime="2020-08-28T18:38:35+00:00">August 28th 2020</time>
               </span>
 
           
@@ -473,7 +635,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: August 26th 2020 13:42:23" itemprop="dateModified" datetime="2020-08-26T13:42:23+00:00">August 26th 2020</time>
+                <time title="Modified: August 28th 2020 18:38:35" itemprop="dateModified" datetime="2020-08-28T18:38:35+00:00">August 28th 2020</time>
               </span>
 
           
@@ -563,7 +725,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: August 26th 2020 13:42:23" itemprop="dateModified" datetime="2020-08-26T13:42:23+00:00">August 26th 2020</time>
+                <time title="Modified: August 28th 2020 18:38:35" itemprop="dateModified" datetime="2020-08-28T18:38:35+00:00">August 28th 2020</time>
               </span>
 
           
@@ -662,7 +824,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: August 26th 2020 13:42:23" itemprop="dateModified" datetime="2020-08-26T13:42:23+00:00">August 26th 2020</time>
+                <time title="Modified: August 28th 2020 18:38:35" itemprop="dateModified" datetime="2020-08-28T18:38:35+00:00">August 28th 2020</time>
               </span>
 
           
@@ -743,7 +905,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: August 26th 2020 13:42:23" itemprop="dateModified" datetime="2020-08-26T13:42:23+00:00">August 26th 2020</time>
+                <time title="Modified: August 28th 2020 18:38:35" itemprop="dateModified" datetime="2020-08-28T18:38:35+00:00">August 28th 2020</time>
               </span>
 
           
@@ -830,7 +992,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: August 26th 2020 13:42:23" itemprop="dateModified" datetime="2020-08-26T13:42:23+00:00">August 26th 2020</time>
+                <time title="Modified: August 28th 2020 18:38:35" itemprop="dateModified" datetime="2020-08-28T18:38:35+00:00">August 28th 2020</time>
               </span>
 
           
@@ -897,7 +1059,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: August 26th 2020 13:42:23" itemprop="dateModified" datetime="2020-08-26T13:42:23+00:00">August 26th 2020</time>
+                <time title="Modified: August 28th 2020 18:38:35" itemprop="dateModified" datetime="2020-08-28T18:38:35+00:00">August 28th 2020</time>
               </span>
 
           
@@ -999,7 +1161,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">9</span>
+          <span class="site-state-item-count">10</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
