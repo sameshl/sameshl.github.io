@@ -74,6 +74,8 @@ Will return all the members belonging to the collection with given `collection_i
 Other than working on the above feature, I spent fixing a minor bug in `hydrus`.
 The PR for this fix is [here](https://github.com/HTTP-APIs/hydrus/pull/496).
 
+Also, added documentation(much needed, for open source projects) on utilizing the new endpoints for managing collections. Also, updated old docs where necessary.
+The PR for the same is [here](https://github.com/HTTP-APIs/http-apis.github.io/pull/82).
 
 ## Learnings / Work done
 I became more adept using the tools in the HydraEcosystem.
@@ -82,6 +84,7 @@ My PRs in this period:
 
 - Add support for multiple resource type collections - PR [#493](https://github.com/HTTP-APIs/hydrus/pull/493)
 - Fix docker bug in `hydrus` - PR [#496](https://github.com/HTTP-APIs/hydrus/pull/496)
+- Documention for `hydrus` - PR [#82](https://github.com/HTTP-APIs/http-apis.github.io/pull/82)
 
 ## Next Steps
 As, this week marks the culmination of the period of my Google Summer of Code 2020 journey, it was quite emotional for me.
