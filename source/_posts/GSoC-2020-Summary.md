@@ -105,3 +105,12 @@ And of course, all of that would not be possible without the support, time and w
 I also have to give a huge shout out to my GSoC partner [Priyanshu Nayan](https://github.com/priyanshunayan) who helped me a lot whenever I was stuck debugging something, having a doubt in the Hydra spec or any help in general.
 
 To sum it up, I think this is a start to my journey in open source software rather than end to my GSoC period.
+
+#### Get in touch
+Thanks for stopping by, I hope you found something useful or interesting.
+If you want to contact me, you can reach out to me via my below online profiles:
+
+[Linkedin](https://www.linkedin.com/in/samesh-lakhotia/)
+[Github](https://github.com/sameshl)
+[Twitter](https://twitter.com/samesh_l)
+Email me at samesh.lakhotia+work@gmail.com
