@@ -20,21 +20,19 @@
     var CONFIG = {"hostname":"www.sameshlakhotia.tech","root":"/","scheme":"Mist","version":"8.0.0-rc.3","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
   </script>
 
-  <meta name="description" content="So, first two weeks of my GSoC have been completed. My project is basically on improving the Hydra server in Python called hydrus.My first task was to improve the existing database architecture that h">
+  <meta name="description" content="Hello, y’all. I am Samesh Lakhotia. I have a fair experience&#x2F;knowledge in contributing to open source projects and I would like to share the same so that more people from our campus start contributing">
 <meta property="og:type" content="article">
-<meta property="og:title" content="GSoC 2020 - Week 2">
-<meta property="og:url" content="https://www.sameshlakhotia.tech/week-2/index.html">
+<meta property="og:title" content="Guide on contributing to Open Source">
+<meta property="og:url" content="https://www.sameshlakhotia.tech/Open-Source-Contribution/index.html">
 <meta property="og:site_name" content="Samesh Lakhotia">
-<meta property="og:description" content="So, first two weeks of my GSoC have been completed. My project is basically on improving the Hydra server in Python called hydrus.My first task was to improve the existing database architecture that h">
+<meta property="og:description" content="Hello, y’all. I am Samesh Lakhotia. I have a fair experience&#x2F;knowledge in contributing to open source projects and I would like to share the same so that more people from our campus start contributing">
 <meta property="og:locale" content="en_US">
-<meta property="og:image" content="https://raw.githubusercontent.com/HTTP-APIs/hydrus/develop/docs/wiki/images/db_schema.png">
-<meta property="article:published_time" content="2020-06-21T14:11:47.000Z">
+<meta property="article:published_time" content="2020-11-21T09:45:48.000Z">
 <meta property="article:modified_time" content="2020-11-21T04:24:23.048Z">
 <meta property="article:author" content="Samesh Lakhotia">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://raw.githubusercontent.com/HTTP-APIs/hydrus/develop/docs/wiki/images/db_schema.png">
 
-<link rel="canonical" href="https://www.sameshlakhotia.tech/week-2/">
+<link rel="canonical" href="https://www.sameshlakhotia.tech/Open-Source-Contribution/">
 
 
 <script id="page-configurations">
@@ -47,7 +45,7 @@
   };
 </script>
 
-  <title>GSoC 2020 - Week 2 | Samesh Lakhotia</title>
+  <title>Guide on contributing to Open Source | Samesh Lakhotia</title>
   
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-169390335-1"></script>
     <script>
@@ -166,7 +164,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="https://www.sameshlakhotia.tech/week-2/">
+    <link itemprop="mainEntityOfPage" href="https://www.sameshlakhotia.tech/Open-Source-Contribution/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/samesh-avatar.png">
@@ -179,7 +177,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          GSoC 2020 - Week 2
+          Guide on contributing to Open Source
         </h1>
 
         <div class="post-meta">
@@ -188,16 +186,10 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">Posted on</span>
+              
 
-              <time title="Created: June 21st 2020 14:11:47" itemprop="dateCreated datePublished" datetime="2020-06-21T14:11:47+00:00">June 21st 2020</time>
+              <time title="Created: November 21st 2020 09:45:48 / Modified: 04:24:23" itemprop="dateCreated datePublished" datetime="2020-11-21T09:45:48+00:00">November 21st 2020</time>
             </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: November 21st 2020 04:24:23" itemprop="dateModified" datetime="2020-11-21T04:24:23+00:00">November 21st 2020</time>
-              </span>
 
           
 
@@ -210,23 +202,33 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <p>So, first two weeks of my GSoC have been completed.</p>
-<p>My project is basically on improving the Hydra server in Python called <a href="https://github.com/HTTP-APIs/hydrus" target="_blank" rel="noopener">hydrus</a>.<br>My first task was to improve the existing database architecture that <em>hydrus</em> used internally while serving any ApiDoc.<br>This task was related to <a href="https://github.com/HTTP-APIs/hydrus/issues/412" target="_blank" rel="noopener">this</a> issue.</p>
-<p>The existing schema:</p>
-<img src="https://raw.githubusercontent.com/HTTP-APIs/hydrus/develop/docs/wiki/images/db_schema.png" class="" title="Hydrus Schema" alt="Hydus schema">
-<p>This design for the database was really generic.</p>
-<p>Our aim was to have a database multi-table architecture where different resources are stored in different tables to improve scalability and efficiency. The result we wanted to achieve was that there will be should be a table for each <code>hydra:Class</code> and <code>hydra:Collection</code> defined in the ApiDoc.</p>
-<p>For example, if we consider the <a href="https://github.com/HTTP-APIs/hydrus/blob/master/hydrus/samples/hydra_doc_sample.py" target="_blank" rel="noopener">Drone ApiDoc</a>, we would want a <code>State</code> table, <code>Drone</code> table and so on. The columns would be the properties defined under the <code>supportedProperty</code> for that Class or collection.<br>This would easily facilitate the operations on the data as for any operation such as updating a new record or deleting a old record, we would just need to call the methods provided by <code>Flask-SQLAlchemy</code> library. A lot of overhead which we had in our previous database schema would be minimised. </p>
-<p>For example, in the previous database schema, for a simple operation such as adding a <a href="https://github.com/HTTP-APIs/hydrus/blob/master/hydrus/samples/hydra_doc_sample.py" target="_blank" rel="noopener"><code>Message</code></a> Instance, (by doing a <strong>PUT</strong> request to <code>/MessageCollection</code>) , we would need to do an INSERT operation in 4 tables, namely the <code>instance</code> table, <code>terminals</code> table, <code>graphiit</code> table, <code>graph</code> table. That is not that efficient.</p>
-<p>In the new schema, there will be a separate table for storing all instances of <code>Message</code> class. This table will have a primary key column and a column with name <code>MessageString</code> (from the <code>supportedProperty</code> of <code>Message</code> class). So, to modify any instance of <code>Message</code> class, we will only need to do a single operation on this on table.</p>
-<p>This will make our database operations much more efficient.</p>
-<p>To achieve this feat, I had to read the ApiDoc and then make the database specific to that ApiDoc.</p>
-<p>I had spent the first week reading on <code>hydrus</code>‘s existing schema and understanding on how we are storing the data. This made it more clear to me on how I could optimize the database architecture.</p>
-<p>In the second week, I had started implementing the logic for parsing the ApiDoc and making the tables from reading that. I have completed till making the tables “dynamically”.<br>In the next week, I will look into how we can get ‘linking’ behaviour in the tables, meaning how would we connect tables with foreign keys by just parsing the ApiDoc.</p>
-<p>The work I have done is in this PR: <a href="https://github.com/HTTP-APIs/hydrus/pull/479" target="_blank" rel="noopener">https://github.com/HTTP-APIs/hydrus/pull/479</a></p>
-<h3 id="Learnings"><a href="#Learnings" class="headerlink" title="Learnings"></a>Learnings</h3><p>I learnt a lot on how we go about database optimisation.</p>
-<p>I also learnt how to “dynamically” create tables in a database using <a href="https://flask-sqlalchemy.palletsprojects.com/en/2.x/" target="_blank" rel="noopener">Flask-SQLAlchemy</a> library. The challange was mainly to create Python classes on <em>runtime</em>. Because all the operations on the tables will be done from SQLAlchemy classes.</p>
-<p>Surprisingly, Python’s unasumming <code>type</code> function was the backbone for making classes on runtime.<br><a href="http://sparrigan.github.io/sql/sqla/2016/01/03/dynamic-tables.html" target="_blank" rel="noopener">This</a> blog post also came very handy.</p>
+        <p>Hello, y’all. I am Samesh Lakhotia. I have a fair experience/knowledge in contributing to open source projects and I would like to share the same so that more people from our campus start contributing to open source and get involved in the open-source community. I am currently pursuing my Google Summer of Code 2020(GSoC) <a href="https://summerofcode.withgoogle.com/projects/#6296902657638400" target="_blank" rel="noopener">project</a> at <a href="https://www.hydraecosystem.org" target="_blank" rel="noopener">HydraEcosystem.org</a>.</p>
+<p>There are already tons of articles on “How to contribute to open source”. You can have a look at them for a general overview. I wanted to share some of my personal learnings/hurdles I had along my journey and how you could overcome them when you start contributing to open source projects. This article is mainly for people who are interested in contributing to open source and/or want to participate in open-source programs like Google Summer of Code, Outreachy, etc.</p>
+<h2 id="Something-I-would-want-you-all-to-know-beforehand"><a href="#Something-I-would-want-you-all-to-know-beforehand" class="headerlink" title="Something I would want you all to know beforehand"></a>Something I would want you all to know beforehand</h2><p>Contributing to open-source projects as a beginner will feel intimidating. This is because there is no kind of defined “<em>syllabus</em>” or “9 steps to becoming an open-source guru” guide. There are some steps general steps you can follow but you can sometimes feel a bit lost in the process because there’s a very steep learning curve involved. That’s why, the most important aspect, by far, when you start contributing to open source is that you need to be ready to learn new things on the go. But, I guarantee you, the learning you get through it is invaluable as a software developer.</p>
+<h2 id="How-do-I-start"><a href="#How-do-I-start" class="headerlink" title="How do I start?"></a>How do I start?</h2><p>The first question I often get asked is how to go about <em>starting</em> to contribute to open source.</p>
+<h4 id="Prerequisites"><a href="#Prerequisites" class="headerlink" title="Prerequisites:"></a>Prerequisites:</h4><p>Well, you need to have some basic prerequisites before you can start contributing to open source. They basically include:</p>
+<ul>
+<li><em>Fair</em> knowledge(by fair, I just mean not being a complete beginner) of any programming language of your choice. It might be better if you are also comfortable with any framework/library in that language mainly because that will open up doors to allow you to contribute to more projects.</li>
+<li><em>Fair</em> experience in working with any version control system like GIT.</li>
+</ul>
+<p><strong>One of the biggest hurdles most people face is how to choose a project to start contributing to.</strong></p>
+<p>There are many approaches here, but I would like to share what worked for me.</p>
+<p>In my opinion, the best projects to start contributing are the big libraries/frameworks you have <em>used</em> in your preferred language of choice. They have the best open source practices followed and the project will be active. So if you are stuck in any issue, the project maintainers will always be there to offer help.<br>My language of choice was Python. And at that time, I was exploring the data science and machine learning domain. Due to that work, I had some experience with some of the famous libraries in this domain which included <a href="https://github.com/pandas-dev/pandas" target="_blank" rel="noopener">pandas</a>, <a href="https://github.com/numpy/numpy" target="_blank" rel="noopener">numpy</a> and <a href="https://github.com/matplotlib/matplotlib" target="_blank" rel="noopener">matplotlib</a>.<br>So, I started my contribution to these projects.</p>
+<p>Now one thing to keep in mind is that start with some very simple issues. Your first contribution need not be the next big feature in this library. In fact, I did suggest starting(and that’s also how I started) with some non-code contribution like fixing typos in the documentation or updating the documentation. Also, most projects have their issues tagged with labels such as ‘good-first-issue’ or ‘beginner’. You could start with them. These will get you more comfortable with the Github workflow. Also, The feeling of getting your first PR merged is absolutely ecstatic💙</p>
+<h2 id="What-next"><a href="#What-next" class="headerlink" title="What next?"></a>What next?</h2><p>So now you have a decent number of PRs merged in some projects which solve beginner issues. You also feel fairly confident using GIT.</p>
+<p><strong>The next hurdle I faced was how do I go from solving simple issues to more intermediate ones.</strong> This is by far the biggest challenge I had.</p>
+<p>The problem is that there is no exact answer I can give for this. The key is patience and perseverance. I can give you some tips which could help:</p>
+<ul>
+<li>[<strong>Absolutely essential</strong>] Learn to use a debugger in the language/framework you are comfortable in. Using a debugger will really help you a ton when you are trying to fix any bug. Using print statements to log stuff can only help you until a point. I was in the python ecosystem, so I learnt pdb. You should go ahead and learn whichever is the most suitable for your ecosystem.</li>
+<li>For solving intermediate issues, I would actually recommend you switch your project to a not so big one. The problem with huge projects is that sometimes their code might get a <em>little</em> too complex when you are at that stage. They are really good to get you comfortable with GIT and open-source culture in general. So what I did, was switched my project, and started working on some intermediate-ish issues in another not-so-big project. That project was still in its alpha stage and I could understand most of the codebase.</li>
+<li>Try to explain to the project maintainers about your issue and where you are <em>exactly</em> stuck. They will always be there to help whenever you are stuck. They are going to be your best friends in open source.</li>
+<li>Don’t get disheartened if you are not able to solve an issue for a long time. The first issue I solved, took me around a week. Try to stick with that issue for some time but if you are not able to solve it, try your hand at another issue😉.</li>
+</ul>
+<h2 id="Now-what"><a href="#Now-what" class="headerlink" title="Now what?"></a>Now what?</h2><p>If you have solved some intermediate issues, you would have got a good knowledge of open source development culture. You would have also learnt a ton in the process.</p>
+<p>Now, for people interested in programs like Google Summer of Code. The process is exactly the same with a few extra steps. But the core idea is the same, try to contribute by fixing bugs and adding features.</p>
+<p><strong>One very important thing to understand in your whole journey is that continue only if you like the process. I personally loved the thrill I got whenever I was going after a new issue or getting my PR merged. The satisfaction of seeing my code being used by so many other people was what drove me.<br>There won’t be any point in continuing just because you want to gain any kind of tag on your resume. I would recommend rather find something you like doing and work hard at that.</strong></p>
+<p>I hope this article helps someone getting into open-source. I would love to answer any queries that you have in the comments.<br>If you have any other questions on open-source development / GSoC, feel free to <a href="https://www.sameshlakhotia.tech/about-me/">contact me</a>.</p>
+<p>Do ping me once your first PR gets merged😉! Happy developing.</p>
 
     </div>
 
@@ -242,13 +244,10 @@
         
     <div class="post-nav">
       <div class="post-nav-item">
-    <a href="/community-bonding/" rel="prev" title="Community Bonding Period - Google Summer of Code 2020">
-      <i class="fa fa-chevron-left"></i> Community Bonding Period - Google Summer of Code 2020
+    <a href="/GSoC-2020-Summary/" rel="prev" title="Google Summer of Code 2020 Summary - Hydra Ecosystem">
+      <i class="fa fa-chevron-left"></i> Google Summer of Code 2020 Summary - Hydra Ecosystem
     </a></div>
-      <div class="post-nav-item">
-    <a href="/week-4/" rel="next" title="GSoC 2020 - Week 4 (Some good news too!)">
-      GSoC 2020 - Week 4 (Some good news too!) <i class="fa fa-chevron-right"></i>
-    </a></div>
+      <div class="post-nav-item"></div>
     </div>
       </footer>
     
@@ -307,7 +306,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Learnings"><span class="nav-number">1.</span> <span class="nav-text">Learnings</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Something-I-would-want-you-all-to-know-beforehand"><span class="nav-number">1.</span> <span class="nav-text">Something I would want you all to know beforehand</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#How-do-I-start"><span class="nav-number">2.</span> <span class="nav-text">How do I start?</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Prerequisites"><span class="nav-number">2.0.1.</span> <span class="nav-text">Prerequisites:</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#What-next"><span class="nav-number">3.</span> <span class="nav-text">What next?</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Now-what"><span class="nav-number">4.</span> <span class="nav-text">Now what?</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
